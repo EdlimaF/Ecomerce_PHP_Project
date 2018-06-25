@@ -7,6 +7,8 @@
 
 	class User extends  Model {
 
+		const SESSION = 'User';
+
 		public static function login($login, $password)
 		{
 
@@ -28,13 +30,41 @@
 
 				$user = new User();
 
-				$user->setIdUser($data['iduser']);
+				$user->setData($data);
+
+				$_SESSION[User::SESSION] = $user->getValues();
+
+				return $user;
 
 			} else {
 
 				throw new \Exception("Usuário inexistente ou senha invalida");
 
 			}
+		}// Fim function login
+
+		public function verifyLogin($inAdmin = true)
+		{
+
+			if (!isset($_SESSION[User::SESSION])
+				||
+				!$_SESSION[User::SESSION]
+				||
+				!(int)$_SESSION[User::SESSION]['iduser'] > 0
+				||
+				(bool)$_SESSION[User::SESSION]['inadmin'] !== $inAdmin
+			) {
+
+				header('Location: /admin/login');
+				exit;
+
+			}
+		}// Fim function verifyLogin
+
+		public static function logout()
+		{
+
+			$_SESSION[User::SESSION] = NULL;
 		}
 	}
 ?>

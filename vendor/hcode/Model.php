@@ -1,4 +1,4 @@
-<?php
+<?php // Inicio do bloco php
 
 	namespace Hcode;
 
@@ -13,9 +13,33 @@
 			$method = substr($name, 0, 3); // os tres primeiros caracteres do metodo chamado
 			$fieldName = substr($name, 3, strlen($name)); // o restante dos caracteres metodo chamado
 
-			var_dump($method, $fieldName);
-			exit;
-		}
-	}
+			switch ($method)
+			{
+				case 'get':
+					return $this->values[$fieldName];
+				break;
 
-?>
+				case 'set':
+					$this->values[$fieldName] = $args[0];
+				break;
+			}// Fim Case
+		}// Fim function __call
+
+		public function SetData($data = array())
+		{
+
+			foreach ($data as $key => $value) {
+
+				$this->{'set' .$key}($value);
+
+			}
+		}// Fim funcion setData
+
+		public function getValues()
+		{
+
+			return $this->values;
+
+		}
+	}// Fim Class Model
+?> <!-- fim Bloco PHP -->
