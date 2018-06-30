@@ -22,7 +22,7 @@
         <h3 class="control-sidebar-heading">Recent Activity</h3>
         <ul class="control-sidebar-menu">
           <li>
-            <a href="res/admin/javascript:;">
+            <a href="/res/admin/javascript:;">
               <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
               <div class="menu-info">
@@ -38,7 +38,7 @@
         <h3 class="control-sidebar-heading">Tasks Progress</h3>
         <ul class="control-sidebar-menu">
           <li>
-            <a href="res/admin/javascript:;">
+            <a href="/res/admin/javascript:;">
               <h4 class="control-sidebar-subheading">
                 Custom Template Design
                 <span class="pull-right-container">
@@ -90,11 +90,11 @@
 <!-- REQUIRED JS SCRIPTS -->
 
 <!-- jQuery 2.2.3 -->
-<script src="res/admin/plugins/jQuery/jquery-2.2.3.min.js"></script>
+<script src="/res/admin/plugins/jQuery/jquery-2.2.3.min.js"></script>
 <!-- Bootstrap 3.3.6 -->
-<script src="res/admin/bootstrap/js/bootstrap.min.js"></script>
+<script src="/res/admin/bootstrap/js/bootstrap.min.js"></script>
 <!-- AdminLTE App -->
-<script src="res/admin/dist/js/app.min.js"></script>
+<script src="/res/admin/dist/js/app.min.js"></script>
 
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
      Both of these plugins are recommended to enhance the

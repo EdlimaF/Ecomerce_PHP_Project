@@ -25,7 +25,7 @@
 			}// Fim Case
 		}// Fim function __call
 
-		public function SetData($data = array())
+		public function setData($data = array())
 		{
 
 			foreach ($data as $key => $value) {

@@ -7,7 +7,7 @@
 	class Page {
 
 		private $tpl;
-		private $option = [];
+		private $options = [];
 		private $defaults = [
 			'header'=>true,
 			'footer'=>true,
@@ -39,7 +39,6 @@
 			foreach ($data as $key => $value) {
 				$this->tpl->assign($key, $value);
 			}
-
 		}
 
 		public function setTpl($name, $data = array(), $returnHTML = false) {
