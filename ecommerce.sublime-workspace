@@ -1,0 +1,727 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"re",
+				"results"
+			],
+			[
+				"hi",
+				"hidden"
+			],
+			[
+				"tran",
+				"transform\tCSS - transform: ;"
+			],
+			[
+				"st",
+				"style\t<style>"
+			],
+			[
+				"col",
+				"color\tproperty"
+			],
+			[
+				"tra",
+				"transition\tproperty"
+			],
+			[
+				"ba",
+				"background-color\tproperty"
+			],
+			[
+				"up",
+				"uppercase"
+			],
+			[
+				"borde",
+				"border"
+			],
+			[
+				"le",
+				"letter-spacing\tproperty"
+			],
+			[
+				"dis",
+				"display"
+			],
+			[
+				"cen",
+				"center"
+			],
+			[
+				"text-a",
+				"text-align\tproperty"
+			],
+			[
+				"btn-",
+				"btn-lg\t bootstrap.min.css"
+			],
+			[
+				"fix",
+				"fixed"
+			],
+			[
+				"no",
+				"no-repeat"
+			],
+			[
+				"margin",
+				"margin"
+			],
+			[
+				"wh",
+				"white"
+			],
+			[
+				"margi",
+				"margin-bottom"
+			],
+			[
+				"text",
+				"text-indent"
+			],
+			[
+				"cont",
+				"contain"
+			],
+			[
+				"navbar",
+				"navbar-right\t bootstrap.min.css"
+			],
+			[
+				"coll",
+				"collapse\t bootstrap.min.css"
+			],
+			[
+				"ac",
+				"active\t bootstrap.min.css"
+			],
+			[
+				"scri",
+				"script\tTag"
+			],
+			[
+				"title",
+				"title\tAttr"
+			],
+			[
+				"fon",
+				"font-size\tproperty"
+			],
+			[
+				"sty",
+				"style\tAttr"
+			],
+			[
+				"ca",
+				"caret \tBootstrap 3 Class"
+			],
+			[
+				"navbar-",
+				"navbar-brand\t bootstrap.min.css"
+			],
+			[
+				"img",
+				"img-circle \tBootstrap 3 Class"
+			],
+			[
+				"bo",
+				"border\tAttr"
+			],
+			[
+				"form",
+				"form-control\t bootstrap.min.css"
+			],
+			[
+				"form-",
+				"form-group\t bootstrap.min.css"
+			],
+			[
+				"page",
+				"page-header\t bootstrap.min.css"
+			],
+			[
+				"col-sm",
+				"col-sm-2 \tBootstrap 3 Class"
+			],
+			[
+				"marcador",
+				"marcador2\t estilo.css"
+			],
+			[
+				"con",
+				"container \tBootstrap 3 Class"
+			],
+			[
+				"col-md",
+				"col-md-3 \tBootstrap 3 Class"
+			],
+			[
+				"transi",
+				"transition\tproperty"
+			],
+			[
+				"trans",
+				"transition\tCSS - transition: ;"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"w",
+				"white"
+			],
+			[
+				"padi",
+				"padding\tproperty"
+			],
+			[
+				"im",
+				"background-image\tproperty"
+			],
+			[
+				"borde-bo",
+				"border-box"
+			],
+			[
+				"box",
+				"box-sizing\tproperty"
+			],
+			[
+				"la",
+				"lang\tAttr"
+			],
+			[
+				"va",
+				"value\tAttr"
+			],
+			[
+				"aut",
+				"autofocus\tAttr"
+			],
+			[
+				"doc",
+				"doctype\tHTML - HTML foundation"
+			],
+			[
+				"html",
+				"html\thtml"
+			],
+			[
+				"do",
+				"doctype\tHTML - HTML foundation"
+			],
+			[
+				"htm",
+				"html\thtml"
+			],
+			[
+				"da",
+				"datetime\tAttr"
+			],
+			[
+				"mar",
+				"margin-bottom\tproperty"
+			],
+			[
+				"blo",
+				"block"
+			],
+			[
+				"floa",
+				"float\tproperty"
+			],
+			[
+				"pading",
+				"padding-bottom\tproperty"
+			],
+			[
+				"bl",
+				"block"
+			],
+			[
+				"san",
+				"san\tCSS - font-family: sans-serif;"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"rgb",
+				"ralRGB:1000\tRAL 1000 (RGB)"
+			],
+			[
+				"colo",
+				"color"
+			],
+			[
+				"wid",
+				"width\tproperty"
+			],
+			[
+				"ab",
+				"absolute"
+			],
+			[
+				"to",
+				"top\tCSS - top: 0;"
+			],
+			[
+				"rel",
+				"relative"
+			],
+			[
+				"he",
+				"height\tproperty"
+			],
+			[
+				"ri",
+				"right\tproperty"
+			],
+			[
+				"wi",
+				"width\tproperty"
+			],
+			[
+				"pa",
+				"padding"
+			],
+			[
+				"style",
+				"style\t<style>"
+			],
+			[
+				"line",
+				"line-through"
+			],
+			[
+				"bol",
+				"bold"
+			],
+			[
+				"font-st",
+				"font-style\tproperty"
+			],
+			[
+				"bor",
+				"border\tproperty"
+			],
+			[
+				"if",
+				"if\tif …"
+			],
+			[
+				"co",
+				"color\tproperty"
+			],
+			[
+				"ch",
+				"checked\tAttr"
+			],
+			[
+				"ro",
+				"rowspan\tAttr"
+			],
+			[
+				"ht",
+				"html\thtml"
+			],
+			[
+				"fiel",
+				"fieldName"
+			],
+			[
+				"sub",
+				"substr"
+			],
+			[
+				"array_m",
+				"array_merge"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"sess",
+				"session_destroy"
+			],
+			[
+				"htmlenti",
+				"htmlentities"
+			],
+			[
+				"iss",
+				"isset"
+			],
+			[
+				"json_",
+				"json_decode"
+			],
+			[
+				"curl",
+				"curl_setopt"
+			],
+			[
+				"arra",
+				"array"
+			],
+			[
+				"http_bui",
+				"http_build_query"
+			],
+			[
+				"em",
+				"email"
+			],
+			[
+				"ti",
+				"title\t<title>"
+			],
+			[
+				"is_n",
+				"is_numeric"
+			],
+			[
+				"mysql_fe",
+				"mysql_fetch_object"
+			],
+			[
+				"esc",
+				"escapeshellcmd"
+			],
+			[
+				"met",
+				"method\tAttr"
+			],
+			[
+				"ut",
+				"utf8_encode"
+			],
+			[
+				"sys",
+				"system"
+			],
+			[
+				"UTF",
+				"utf8_encode"
+			],
+			[
+				"heade",
+				"header\tTag"
+			],
+			[
+				"hea",
+				"header\t<header>"
+			],
+			[
+				"doctype",
+				"doctype\tDOCTYPE HTML"
+			],
+			[
+				"imagecreatefr",
+				"imagecreatefromjpeg"
+			],
+			[
+				"new",
+				"new_image"
+			],
+			[
+				"old_",
+				"_old_height"
+			],
+			[
+				"old",
+				"old_width"
+			],
+			[
+				"image",
+				"imagecolorallocate"
+			],
+			[
+				"imagettf",
+				"imagettftext"
+			],
+			[
+				"tit",
+				"titleColor"
+			],
+			[
+				"imagecre",
+				"imagecreatefromjpeg"
+			],
+			[
+				"header",
+				"header"
+			],
+			[
+				"jso",
+				"json_encode"
+			],
+			[
+				"Json",
+				"json_decode"
+			],
+			[
+				"var",
+				"var_dump"
+			],
+			[
+				"curl_e",
+				"curl_exec"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"enabl",
+				"Package Control: Enable Package"
+			],
+			[
+				"disable",
+				"Package Control: Disable Package"
+			],
+			[
+				"ena",
+				"Package Control: Enable Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"disa",
+				"Package Control: Disable Package"
+			],
+			[
+				"disab",
+				"Package Control: Disable Package"
+			],
+			[
+				"enable",
+				"Package Control: Enable Package"
+			],
+			[
+				"enab",
+				"Package Control: Enable Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"dis",
+				"Package Control: Disable Package"
+			],
+			[
+				"disabl",
+				"Package Control: Disable Package"
+			],
+			[
+				"re",
+				"Package Control: Remove Package"
+			],
+			[
+				"pack",
+				"Package Control: Remove Package"
+			],
+			[
+				"",
+				"Bookmarks: Clear All"
+			]
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 146.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+	],
+	"file_history":
+	[
+		"/C/ecommerce/ecommerce.sublime-project",
+		"/C/ecommerce/index.php",
+		"/C/Users/Fio/Desktop/udemy/Curso-Completo-PHP-7/ecommerce/vendor/hcodebr/php-classes/src/Model/User.php",
+		"/C/ecommerce/vendor/hcode/Model/User.php",
+		"/C/ecommerce/vendor/hcode/Model.php",
+		"/C/Users/Fio/Desktop/udemy/Curso-Completo-PHP-7/ecommerce/vendor/hcodebr/php-classes/src/Model.php",
+		"/C/Users/Fio/Desktop/udemy/Curso-Completo-PHP-7/ecommerce/admin-users.php"
+	],
+	"find":
+	{
+		"height": 24.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"\t\t",
+			"number",
+			"email",
+			"<div class=\"resumo\">\n\t\t<h2>Elementos Flutuantes</h2>\n\t\t<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus labore facere tempore excepturi et, ratione, amet dignissimos enim exercitationem libero repellat similique id eveniet tempora dolorem vel consequatur iusto repellendus.</p>\n\t</div>"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			""
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 29.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.CSS Extended Completions":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"output.mdpopups":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "ecommerce.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\ecommerce\\ecommerce.sublime-project"
+			]
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 305.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 458.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 201.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

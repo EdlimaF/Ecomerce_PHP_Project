@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace Hcode\Db;
 
@@ -15,7 +15,7 @@ class Sql {
 	{
 
 		$this->conn = new \PDO(
-			"mysql:dbname=".Sql::DBNAME.";host=".Sql::HOSTNAME, 
+			"mysql:dbname=".Sql::DBNAME.";host=".Sql::HOSTNAME,
 			Sql::USERNAME,
 			Sql::PASSWORD
 		);
@@ -26,7 +26,7 @@ class Sql {
 	{
 
 		foreach ($parameters as $key => $value) {
-			
+
 			$this->bindParam($statement, $key, $value);
 
 		}
@@ -61,9 +61,7 @@ class Sql {
 		$stmt->execute();
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
-
 	}
-
 }
 
- ?>
+?>

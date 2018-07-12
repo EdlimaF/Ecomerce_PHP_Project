@@ -4,6 +4,7 @@
 
 	class Model {
 
+
 		private $values = [];
 
 		// Detecta qual o metodo que foi chamado e o tipo se (Get ou Set) e tambem nome
