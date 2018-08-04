@@ -11,7 +11,7 @@
 	{
 		
 		const USERNAME  = 'edlimaf.ef@gmail.com';
-		const PASSWORD  = '20120704';
+		const PASSWORD  = '*****';
 		const NAME_FROM = 'Lojas Lima & Cia.';
 
 		private $mail;
