@@ -34,6 +34,7 @@
 				$this->{'set' .$key}($value);
 
 			}
+			
 		}// Fim funcion setData
 
 		public function getValues()
