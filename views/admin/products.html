@@ -36,7 +36,7 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th style="width: 10px">#</th>
+                    <th style="width: 10px">ID</th>
                     <th>Nome da Produto</th>
                     <th>Preço</th>
                     <th>Largura</th>

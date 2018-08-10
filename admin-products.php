@@ -84,10 +84,14 @@
 		$product->setData($_POST);
 
 		$product->save();
+
+		$product->setPhoto($_FILES['file']);
 		
 		header('location: /admin/products');
 		exit;
 	});
+
+
 
 
 ?>
