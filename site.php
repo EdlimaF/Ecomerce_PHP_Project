@@ -26,12 +26,8 @@
 
 		$page->setTpl('category', [
 			'category'=>$category->getValues(),
-			'products'=>[]
+			'products'=>Product::checkList($category->getProducts())
 		]);
 	});
-
-
-
-	
 
 ?>
