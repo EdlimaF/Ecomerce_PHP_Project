@@ -32,12 +32,10 @@
 		
 		$product = new Product();
 
-
 		$product->setData($_POST);
 
-		
 		$product->save();
-
+		
 		header('Location: /admin/products');
 		exit;
 		

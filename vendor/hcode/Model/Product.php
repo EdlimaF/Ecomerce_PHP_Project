@@ -49,6 +49,8 @@
 			));
 
 			$this->setData($results[0]);
+
+			return $results[0];
 		}
 
 		public function get($idproduct)
@@ -114,37 +116,72 @@
 		{
 
 			$idproduct = $this->getidproduct();
-			
-			$extension = explode('.', $file['name']);
-			$extension = end($extension);
 
-			switch ($extension) {
-				case 'jpg':
-				case 'jpeg':
-					$image = imagecreatefromjpeg($file['tmp_name']);
-					break;
+			if ($file['name'] != '') {
 
-				case 'gif':
-					$image = imagecreatefromgif($file['tmp_name']);
-					break;
+				$extension = explode('.', $file['name']);
+				$extension = end($extension);
 
-				case 'png':
-					$image = imagecreatefrompng($file['tmp_name']);
-					break;
+				switch ($extension) {
+					case 'jpg':
+					case 'jpeg':
+						$image = imagecreatefromjpeg($file['tmp_name']);
+						break;
+
+					case 'gif':
+						$image = imagecreatefromgif($file['tmp_name']);
+						break;
+
+					case 'png':
+						$image = imagecreatefrompng($file['tmp_name']);
+						break;
+				}
+
+				$dist = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .
+					'res' . DIRECTORY_SEPARATOR .
+					'site' . DIRECTORY_SEPARATOR .
+					'img' . DIRECTORY_SEPARATOR  .
+					'products' . DIRECTORY_SEPARATOR .
+					$idproduct . '.jpg';
+
+				imagejpeg($image, $dist);
+
+				imagedestroy($image);
+
 			}
-
-			$dist = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR .
-				'res' . DIRECTORY_SEPARATOR .
-				'site' . DIRECTORY_SEPARATOR .
-				'img' . DIRECTORY_SEPARATOR  .
-				'products' . DIRECTORY_SEPARATOR .
-				$idproduct . '.jpg';
-
-			imagejpeg($image, $dist);
-
-			imagedestroy($image);
+			
+			
 
 			$this->checkPhoto();
+		}
+
+		public function getFromURL($desurl)
+		{
+
+			$sql = new Sql();
+
+			$row = $sql->select('SELECT * FROM tb_products	WHERE desurl = :desurl LIMIT 1', [
+				':desurl'=>$desurl
+			]);
+
+			$this->setData($row[0]);
+
+		}
+
+		public function getCategories()
+		{
+
+			$sql = new Sql();
+
+			return $sql->select('
+				SELECT * FROM tb_categories a 
+				INNER JOIN tb_productscategories b
+				ON a.idcategory = b.idcategory
+				WHERE b.idproduct = :idproduct
+				', [
+					':idproduct'=>$this->getidproduct()
+			]);
+
 		}
 
 		
