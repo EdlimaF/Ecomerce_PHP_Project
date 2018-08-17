@@ -49,8 +49,6 @@
 			));
 
 			$this->setData($results[0]);
-
-			return $results[0];
 		}
 
 		public function get($idproduct)
