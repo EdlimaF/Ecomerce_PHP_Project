@@ -7,8 +7,6 @@
 
 	$app->get('/admin', function() {
 
-		echo 'entrou nessa porra agora';
-
 		User::verifyLogin();
 
 		$page = new PageAdmin();

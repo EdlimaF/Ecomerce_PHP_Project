@@ -20,15 +20,15 @@
 
 			$user = new User();
 
-			if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]) {
+			if (isset($_SESSION[User::SESSION]) && (int)$_SESSION[User::SESSION]['iduser'] > 0) {
 				
-				$user->setDtata($_SESSION[User::SESSION]);
+				$user->setData($_SESSION[User::SESSION]);
 			}
 
 			return $user;
 		}
 
-		public static function checklogin($inadmin = true)
+		public static function checkLogin($inadmin = true)
 		{
 
 			if (
@@ -74,7 +74,7 @@
 			}
 
 			$data = $results[0];
-
+			
 			if (password_verify($password, $data['despassword']) === true)
 			{
 
@@ -98,13 +98,11 @@
 		public static function verifyLogin($inadmin = true)
 		{
 
-			if (User::checkLogin($inadmin)) 
 
-			{
+			if (!User::checkLogin($inadmin)) {
 
 				header('Location: /admin/login');
 				exit;
-
 			}
 
 		}// Fim function verifyLogin
