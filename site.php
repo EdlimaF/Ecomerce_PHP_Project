@@ -17,6 +17,7 @@
 		]);
 	});
 
+	
 	$app->get('/categories/:idcategory', function($idcategory){
 		// Variavel de paginação
 		$page = (isset($_GET['page'])) ? (int)$_GET['page'] : 1;
@@ -67,7 +68,8 @@
 
 		$page->setTpl('cart', [
 			'cart'=>$cart->getValues(),
-			'products'=>$cart->getProducts()
+			'products'=>$cart->getProducts(),
+			'error'=>Cart::getMsgError()			
 		]);
 
 	});
@@ -113,5 +115,18 @@
 		header('Location: /cart');
 		exit;
 	});
+
+	$app->post('/cart/freight', function(){
+
+		$cart = Cart::getFromSession();
+
+		$cart->setFreight($_POST['zipcode']);
+
+		header('Location: /cart');
+		exit;
+
+	});
+
+
 
 ?>
