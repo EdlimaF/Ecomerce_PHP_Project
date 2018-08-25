@@ -228,7 +228,7 @@
 			$totals = $this->getProductsTotals();
 
 
-			if ($totals['nrqtd'] > 0) {
+			if ((int)$totals['nrqtd'] > 0) {
 
 				if ($totals['vlheight'] < 2) $totals['vlheight'] = 2;
 				if ($totals['vllength'] < 16) $totals['vllength'] = 16;
@@ -276,7 +276,13 @@
 				
 			} else {
 
+				$this->setnrdays(0);
+				$this->setvlfreight(0);
+				$this->setdeszipcode('');
 
+				$this->save();
+
+				return [];
 
 			}
 
@@ -319,7 +325,7 @@
 		public function updataFreight()
 		{
 
-			
+
 			if ($this->getdeszipcode() != '') {
 
 				$this->setFreight($this->getdeszipcode());
@@ -348,8 +354,6 @@
 			$this->setvltotal($totals['vlprice'] + $this->getvlfreight());
 
 		}
-
-
 
 	}
 
