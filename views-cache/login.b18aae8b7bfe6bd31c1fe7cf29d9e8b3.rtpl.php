@@ -30,6 +30,11 @@
     <a href="/res/admin/index2.html"><b>Admin</b>LTE</a>
   </div>
   <!-- /.login-logo -->
+  <?php if( $error != '' ){ ?>
+  <div class="alert alert-danger">
+      <?php echo htmlspecialchars( $error, ENT_COMPAT, 'UTF-8', FALSE ); ?> !
+  </div>
+  <?php } ?>
   <div class="login-box-body">
     <p class="login-box-msg">Acesso para iniciar sua sessão</p>
 

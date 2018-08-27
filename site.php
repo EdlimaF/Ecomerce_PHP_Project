@@ -84,7 +84,9 @@
 
 		$cart = Cart::getFromSession();
 
-		$cart->addProduct($product, $_GET['qtd']);
+		$qtd = isset($_GET['qtd']) ? $_GET['qtd'] : 1;
+
+		$cart->addProduct($product, $qtd);
 
 		header('Location: /cart');
 		exit;
@@ -222,7 +224,13 @@
 			header('Location: /login');
 			exit;
 
-		} else if (User::checkLoginExist($_POST['email']) === true) {
+		} else if($_POST['password_c'] != $_POST['password']) { 
+
+			User::setErrorRegister('Confirmação de senha não confere, tente novamente');
+			header('Location: /login');
+			exit;
+
+		} else if (User::checkEmailExist($_POST['email']) === true) {
 			
 			User::setErrorRegister('Este endereço de e-mail já está sendo usado por outro usuário.');
 			header('Location: /login');
@@ -249,6 +257,67 @@
 			exit;
 
 		}
+
+	});
+
+
+	$app->get('/forgot', function() {
+
+		$page = new Page();
+
+		$page->setTpl('forgot');
+
+	});
+
+	$app->post('/forgot', function() {
+		
+		$user = User::getForgot($_POST['email'], false);
+
+		header('Location: /forgot/sent');
+		exit;
+
+	});
+
+	$app->get('/forgot/sent', function() {
+
+		$page = new Page();
+
+		$page->setTpl('forgot-sent');
+
+	});
+
+	$app->get('/forgot/reset', function() {
+
+		$user = User::validForgotDecrypt($_GET['code']);
+
+		$page = new Page();
+
+		$page->setTpl('forgot-reset', array(
+			'name'=>$user['desperson'],
+			'code'=>$_GET['code']
+		));
+
+	});
+
+	$app->post('/forgot/reset', function() {
+
+		$forgot = User::validForgotDecrypt($_POST['code']);
+
+		User::setForgotUsed($forgot['idrecovery']);
+
+		$user = new User();
+
+		$user->get((int)$forgot['iduser']);
+
+		$password = password_hash($_POST['password'], PASSWORD_BCRYPT,[
+			'cost'=>12
+		]);
+
+		$user->setPassword($password);
+
+		$page = new Page();
+
+		$page->setTpl('forgot-reset-success');
 
 	});
 

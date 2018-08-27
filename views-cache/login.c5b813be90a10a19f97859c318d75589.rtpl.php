@@ -64,12 +64,12 @@
                     <p class="form-row form-row-first">
                         <label for="nome">Nome Completo <span class="required">*</span>
                         </label>
-                        <input type="text" id="nome" name="name" class="input-text" value="<?php echo htmlspecialchars( $registerValues["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                        <input type="text" id="nome" name="name" class="input-text" value="<?php echo htmlspecialchars( $registerValues["name"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" required>
                     </p>
                     <p class="form-row form-row-first">
                         <label for="email">E-mail <span class="required">*</span>
                         </label>
-                        <input type="email" id="email" name="email" class="input-text" value="<?php echo htmlspecialchars( $registerValues["email"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                        <input type="email" id="email" name="email" class="input-text" value="<?php echo htmlspecialchars( $registerValues["email"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" required>
                     </p>
                     <p class="form-row form-row-first">
                         <label for="phone">Telefone
@@ -79,7 +79,12 @@
                     <p class="form-row form-row-last">
                         <label for="senha">Senha <span class="required">*</span>
                         </label>
-                        <input type="password" id="senha" name="password" class="input-text">
+                        <input type="password" id="senha" name="password" class="input-text" required>
+                    </p>
+                     <p class="form-row form-row-last">
+                        <label for="senha">Confimar senha <span class="required">*</span>
+                        </label>
+                        <input type="password" id="senha_c" name="password_c" class="input-text" required>
                     </p>
                     <div class="clear"></div>
 
