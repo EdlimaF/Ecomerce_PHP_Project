@@ -12,6 +12,7 @@
 		const SESSION = 'User';
 		const ERROR = 'UserError';
 		const ERROR_REGISTER = 'UserErrorRegister';
+		const SUCESS = 'UserSucess';
 
 		// Criptografia
 		const SECRET_KEY = 'erika@cristina02'; // 16 caracteres no minimo
@@ -100,7 +101,7 @@
 			}
 		}// Fim function login
 
-		public static function verifyLogin($inadmin = true)
+		public static function verifyLogin($inadmin = true, $checkout = false)
 		{
 
 			if (!User::checkLogin($inadmin)) {
@@ -108,7 +109,11 @@
 				if ($inadmin) {
 					header('Location: /admin/login');
 				} else {
+
+					if ($checkout) $_SESSION['checkout'] = true;
+
 					header('Location: /login');
+
 				}
 				exit;
 			}
@@ -400,6 +405,31 @@
 		{
 
 			$_SESSION[User::ERROR] = NULL;
+
+		}
+
+		public static function setSucess($msg)
+		{
+
+			$_SESSION[User::SUCESS] = $msg;
+
+		}
+
+		public static function getSucess()
+		{
+
+			$msg = (isset($_SESSION[User::SUCESS]) && $_SESSION[User::SUCESS]) ? $_SESSION[User::SUCESS] : '';
+
+			User::clearSucess();
+			
+			return $msg;
+
+		}
+
+		public static function clearSucess()
+		{
+
+			$_SESSION[User::SUCESS] = NULL;
 
 		}
 

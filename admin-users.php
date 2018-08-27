@@ -80,7 +80,7 @@
 
 			$user->setData($_POST);
 
-			//$user->save();
+			$user->save();
 
 			header('Location: /admin/users');
 			exit;

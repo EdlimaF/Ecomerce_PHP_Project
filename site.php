@@ -133,7 +133,9 @@
 
 	$app->get('/checkout', function(){
 
-		User::verifyLogin(false);
+		User::verifyLogin(false, true);
+
+		$_SESSION['checkout'] = NULL;
 
 		$cart = Cart::getFromSession();
 
@@ -178,10 +180,24 @@
 		} catch (Exception $e) {
 
 			User::setError($e->getMessage());
+
+		}
+
+		User::verifyLogin(false);
+
+
+		// Verifica se o usuario esta vindo do checkout
+		if (isset($_SESSION['checkout']) && $_SESSION['checkout'] == true) {
+
+			$_SESSION['checkout'] = NULL;
+
+			header('Location: /checkout');
+			exit;
 			
 		}
 
-		header('location: /checkout');
+		header('Location: /');
+		
 		exit;
 
 	});
@@ -190,7 +206,7 @@
 
 		User::logout();
 
-		header('Location: /login');
+		header('Location: /');
 		exit;
 	});
 
@@ -320,6 +336,76 @@
 		$page->setTpl('forgot-reset-success');
 
 	});
+
+	$app->get('/profile', function(){
+
+		User::verifyLogin(false);
+
+		$user = User::getFromSession();
+
+		$page = new Page();
+
+		$page->setTpl('profile', [
+			'user'=>$user->getValues(),
+			'profileError'=>User::getError(),
+			'profileMsg'=>User::getSucess()
+		]);
+
+	});
+
+	$app->post('/profile', function(){
+
+		User::verifyLogin(false);
+
+		$user = User::getFromSession();
+
+		// validação dos campos.
+		if (!isset($_POST['desperson']) || $_POST['desperson'] == '') {
+
+			User::setError('Preencha seu nome');
+			header('Location: /profile');
+			exit;
+
+		} else if(!isset($_POST['desemail']) || $_POST['desemail'] == '') { 
+
+			User::setError('Preencha seu e-mail');
+			header('Location: /profile');
+			exit;
+
+		} else if ($_POST['desemail'] != $user->getdesemail() && User::checkEmailExist($_POST['desemail']) === true) {
+			
+			User::setError('Este endereço de e-mail já está sendo usado por outro usuário.');
+			header('Location: /profile');
+			exit;
+
+		} else if(isset($_POST['nrphone']) && !$_POST['nrphone'] == '' && !is_numeric($_POST['nrphone'])) { 
+
+			User::setError('Preencha o telefone apenas com numeros');
+			header('Location: /profile');
+			exit;
+		} else {
+
+			$_POST['inadmin'] = $user->getinadmin();
+			$_POST['despassword'] = $user->getdespassword();
+			$_POST['deslogin'] = $_POST['desemail'];
+
+			$user->setData($_POST);
+
+			// var_dump($user);
+			// exit;
+
+			$user->update();
+
+			User::setSucess('Dados alterados com sucesso!');
+
+			$_SESSION[User::SESSION] = $user->getValues();
+
+			header('Location: /profile');
+			exit;
+		}
+	});
+
+
 
 
 
