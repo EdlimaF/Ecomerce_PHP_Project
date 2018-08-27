@@ -108,16 +108,19 @@
 
 		}
 
-		public function addProduct(Product $product)
+		public function addProduct(Product $product, $qtde = 1)
 		{
 
 			$sql = new Sql();
 
-			$sql->query('INSERT INTO tb_cartsproducts (idcart, idproduct) 
-									 VALUES (:idcart, :idproduct)', [
-				':idcart'=>$this->getidcart(),
-				':idproduct'=>$product->getidproduct()
-			]);
+			for ($i = 0; $i < $qtde ; $i++) {
+
+				$sql->query('INSERT INTO tb_cartsproducts (idcart, idproduct) 
+										 VALUES (:idcart, :idproduct)', [
+					':idcart'=>$this->getidcart(),
+					':idproduct'=>$product->getidproduct()
+				]);
+			}
 
 			$this->getCalculateTotal();
 		}
