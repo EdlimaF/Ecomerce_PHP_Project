@@ -124,7 +124,7 @@
 
 		$cart = Cart::getFromSession();
 
-		$cart->setFreight($_POST['zipcode']);
+		$cart->setFreight($_POST['deszipcode']);
 
 		header('Location: /cart');
 		exit;
@@ -135,14 +135,20 @@
 
 		User::verifyLogin(false, true);
 
+		//var_dump($_GET['deszipcode']);
+		//exit; verificando passagem do cep
+
 		$address = new Address();
 
 		$cart = Cart::getFromSession();
 
+		$cartzipcode = $cart->getdeszipcode();
+
+
 		if (isset($_GET['deszipcode'])) {
 
-			$_GET['deszipcode'] = $cart->getdeszipcode();
-
+			if ($cartzipcode != '') $_GET['deszipcode'] = $cartzipcode;
+				
 			$address->loadFromCEP($_GET['deszipcode']);
 
 			$cart->setdeszipcode($_GET['deszipcode']);
