@@ -178,10 +178,6 @@
 
 		User::verifyLogin(false);
 
-		// var_dump($_POST);
-		// exit;
-
-
 		// validação dos campos.
 		if (!isset($_POST['deszipcode']) || $_POST['deszipcode'] == '') {
 
