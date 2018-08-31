@@ -12,7 +12,7 @@
 		const SESSION = 'User';
 		const ERROR = 'UserError';
 		const ERROR_REGISTER = 'UserErrorRegister';
-		const SUCESS = 'UserSucess';
+		const SUCCESS = 'UserSucess';
 
 		// Criptografia
 		const SECRET_KEY = 'erika@cristina02'; // 16 caracteres no minimo
@@ -182,7 +182,7 @@
 				':iduser'     =>$this->getiduser(),
 				':desperson'  =>utf8_decode($this->getdesperson()),
 				':deslogin'   =>$this->getdeslogin(),
-				':despassword'=>$this->getdespassword(),
+				':despassword'=>User::getPasswordHash($this->getdespassword()),
 				':desemail'   =>$this->getdesemail(),
 				':nrphone'    =>$this->getnrphone(),
 				':inadmin'    =>$this->getinadmin()
@@ -342,10 +342,11 @@
 
 		public function setPassword($password)
 		{
+
 			$sql = new Sql();
 
 			$sql->query("UPDATE tb_users SET despassword = :password WHERE iduser = :iduser", array(
-				':password'=>$password,
+				':password'=>User::getPasswordHash($password),
 				':iduser'=>$this->getiduser()
 
 			));
@@ -383,6 +384,28 @@
 			return (count($results) > 0);
 		}
 
+		public function getOrders()
+	  {
+
+			$sql = new Sql();
+
+	  	$results = $sql->select('
+	  		SELECT * 
+	  		FROM tb_orders a 
+	  		INNER JOIN tb_ordersstatus b USING(idstatus)
+	  		INNER JOIN tb_carts c USING(idcart)
+	  		INNER JOIN tb_users d ON d.iduser = a.iduser
+				INNER JOIN tb_addresses e USING(idaddress)
+				INNER join tb_persons f ON f.idperson = d.idperson
+				WHERE a.iduser = :iduser
+	  	', [
+	  		':iduser'=>$this->getiduser()
+	  	]);	
+
+	  	return $results;  	
+	  	
+	  }
+
 		public static function setError($msg)
 		{
 
@@ -408,28 +431,28 @@
 
 		}
 
-		public static function setSucess($msg)
+		public static function setSuccess($msg)
 		{
 
-			$_SESSION[User::SUCESS] = $msg;
+			$_SESSION[User::SUCCESS] = $msg;
 
 		}
 
-		public static function getSucess()
+		public static function getSuccess()
 		{
 
-			$msg = (isset($_SESSION[User::SUCESS]) && $_SESSION[User::SUCESS]) ? $_SESSION[User::SUCESS] : '';
+			$msg = (isset($_SESSION[User::SUCCESS]) && $_SESSION[User::SUCCESS]) ? $_SESSION[User::SUCCESS] : '';
 
-			User::clearSucess();
+			User::clearSuccess();
 			
 			return $msg;
 
 		}
 
-		public static function clearSucess()
+		public static function clearSuccess()
 		{
 
-			$_SESSION[User::SUCESS] = NULL;
+			$_SESSION[User::SUCCESS] = NULL;
 
 		}
 
@@ -459,6 +482,8 @@
 		}
 
 
+		
+		
 	}
 
 ?>

@@ -39,7 +39,7 @@
                 <form method="post" action="/profile">
                     <div class="form-group">
                     <label for="desperson">Nome completo</label>
-                    <input type="text" class="form-control" id="desperson" name="desperson" placeholder="Digite o nome aqui" value="<?php echo htmlspecialchars( $user["desperson"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" required>
+                    <input type="text" class="form-control" id="desperson" name="desperson" placeholder="Digite o nome aqui" value="<?php echo utf8_decode($user["desperson"]); ?>" required>
                     </div>
                     <div class="form-group">
                     <label for="desemail">E-mail</label>

@@ -27,15 +27,25 @@
 		return utf8_decode($user->getdesperson());
 
 	}
+	
+	function getCartNrQtd()
+	{
+
+		$cart = Cart::getFromSession();
+
+		$totals = $cart->getProductsTotals();
+
+		return $totals['nrqtd'];
+	}
 
 	function getSubtotal()
 	{
 
 		$cart = Cart::getFromSession();
 
-		$cart->getValues();
+		$totals = $cart->getProductsTotals();
 
-		return $cart->getvlsubtotal();
+		return formatPrice($totals['vlprice']);
 	}
 
 ?>

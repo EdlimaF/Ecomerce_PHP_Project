@@ -2,22 +2,20 @@
 
 	session_start();
 
+	use \Slim\Slim;
+
 	require_once("vendor/autoload.php");
 
-	use \Slim\Slim;
-		
 	$app = new Slim();
 
 	$app->config('debug', true);
-
+		
 	require_once('functions.php');
-	require('admin.php');
 	require_once('site.php');
+	require('admin.php');
 	require_once('admin-users.php');
 	require_once('admin-categories.php');
 	require_once('admin-products.php');
-
-	
 	
 	$app->run();
 ?>

@@ -1,5 +1,6 @@
 <?php
 
+	use \Slim\Slim;
 	use \Hcode\Page;
 	use \Hcode\Model\Category;
 	use \Hcode\Model\Product;
@@ -9,7 +10,6 @@
 	use \Hcode\Model\Order;
 	use \Hcode\Model\OrderStatus;
 
-	
 	$app->get('/', function() {
 
 		$products = Product::listAll();
@@ -137,9 +137,6 @@
 
 		User::verifyLogin(false, true);
 
-		//var_dump($_GET['deszipcode']);
-		//exit; verificando passagem do cep
-
 		$address = new Address();
 
 		$cart = Cart::getFromSession();
@@ -246,11 +243,20 @@
 				'idaddress'=>$address->getidaddress(),
 				'iduser'=>$user->getiduser(),
 				'idstatus'=>OrderStatus::EM_ABERTO,
+				'vlfreight'=>$cart->getvlfreight(),
+				'vlsubtotal'=>$cart->getvlsubtotal(),
 				'vltotal'=>$cart->getvltotal()
 			]);
 
-			$order->save();
-			
+			if ($order->save()){
+
+				$products = $cart->getProducts();
+
+				foreach ($products as $value) {
+					$order->addProduct($value);
+				}
+			}
+
 			header('Location: /order/'.$order->getidorder());
 			exit;
 		}
@@ -433,11 +439,7 @@
 
 		$user->get((int)$forgot['iduser']);
 
-		$password = password_hash($_POST['password'], PASSWORD_BCRYPT,[
-			'cost'=>12
-		]);
-
-		$user->setPassword($password);
+			$user->setPassword($_POST['password']);
 
 		$page = new Page();
 
@@ -456,7 +458,7 @@
 		$page->setTpl('profile', [
 			'user'=>$user->getValues(),
 			'profileError'=>User::getError(),
-			'profileMsg'=>User::getSucess()
+			'profileMsg'=>User::getSuccess()
 		]);
 
 	});
@@ -498,9 +500,6 @@
 			$_POST['deslogin'] = $_POST['desemail'];
 
 			$user->setData($_POST);
-
-			// var_dump($user);
-			// exit;
 
 			$user->update();
 
@@ -601,8 +600,114 @@
 
 	});
 
+	$app->get('/profile/orders', function(){
+
+		User::verifyLogin(false);
+
+		$user = User::getFromSession();
+
+		$page = new Page();
+
+		$page->setTpl('profile-orders', [
+			'orders'=>$user->getOrders()
+		]);
+
+	});
+
+	$app->get('/profile/orders/:idorder', function($idorder){
+
+		User::verifyLogin(false);
+
+		$order = new Order();
+
+		$order->get((int)$idorder);
+
+		$user = User::getFromSession();
+
+		$page = new Page();
+
+		$page->setTpl('profile-orders-detail', [
+			'order'=>$order->getValues(),
+			'products'=>$order->getProducts($idorder)
+		]);
+
+	});
+	
+
+	$app->get('/profile/change-password', function(){
+
+		User::verifyLogin(false);
+
+		$page = new page();
+
+		$page->setTpl('profile-change-password', [
+			'changePassError'=>User::getError(),
+			'changePassSuccess'=>User::getSuccess()
+		]);
+	});
 
 
+	$app->post('/profile/change-password', function(){
+
+		User::verifyLogin(false);
+
+		$user = User::getFromSession();
+
+		// validação dos campos.
+		if (!isset($_POST['current_pass']) || $_POST['current_pass'] == '') {
+
+			User::setError('Digite a senha atual.');
+			header('Location: /profile/change-password');
+			exit;
+
+		} else if (!isset($_POST['new_pass']) || $_POST['new_pass'] == '') {
+
+			User::setError('Digite a nova senha.');
+			header('Location: /profile/change-password');
+			exit;
+
+		} else if (!isset($_POST['new_pass_confirm']) || $_POST['new_pass_confirm'] == '') {
+
+			User::setError('Confirme a nova senha.');
+			header('Location: /profile/change-password');
+			exit;
+
+		} else if ($_POST['new_pass_confirm'] !== $_POST['new_pass']) {
+
+			User::setError('Confimação da nova senha invalida.');
+			header('Location: /profile/change-password');
+			exit;
+
+		}  else if ($_POST['new_pass'] == $_POST['current_pass']) {
+
+			User::setError('A sua nova senha deve ser diferente da atual.');
+			header('Location: /profile/change-password');
+			exit;
+
+		}  else if (!password_verify($_POST['current_pass'], $user->getdespassword())) {
+
+			User::setError('Senha atual não confere.');
+			header('Location: /profile/change-password');
+			exit;
+
+		} else {
+
+			// echo 'Passou';
+			// exit;
+
+			$user->setdespassword($_POST['new_pass']);
+
+			$user->update();
+
+			User::login($user->getdeslogin(), $_POST['new_pass']);
+
+			User::setSuccess('Semha alterada com sucesso.');
+			header('Location: /profile/change-password');
+			exit;
+		}
+
+		
+	});
 
 
 
