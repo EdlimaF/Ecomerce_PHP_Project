@@ -12,6 +12,13 @@
 
 	}
 
+	function formatDate($date)
+	{
+
+		return date('d/m/Y', strtotime($date));
+
+	}
+
 	function checkLogin($inadmin = true)
 	{
 
@@ -24,7 +31,7 @@
 
 		$user = User::getFromSession();
 
-		return utf8_decode($user->getdesperson());
+		return $user->getdesperson();
 
 	}
 	

@@ -71,6 +71,31 @@
 
 		}
 
+		public function get($idaddress)
+		{
+
+			$sql = new Sql();
+
+			$results = $sql->select('SELECT * FROM tb_addresses WHERE idaddress = :idaddress', [
+				':idaddress'=>$idaddress
+			]);
+
+			if (count($results) > 0) {
+				$this->setData($results[0]);
+			}
+		}
+
+		public function delete()
+		{
+
+			$sql = new Sql();
+
+			$sql->query('DELETE FROM tb_addresses WHERE idaddress = :idaddress', [
+				':idaddress'=>$this->getidaddress()
+			]);
+
+		}
+
 
 		public static function setMsgError($msg)
 		{

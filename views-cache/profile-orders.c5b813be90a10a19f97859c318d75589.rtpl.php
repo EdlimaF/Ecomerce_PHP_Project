@@ -29,7 +29,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>#</th>
+                            <th>ID</th>
                             <th>Valor Total</th>
                             <th>Status</th>
                             <th>Endereço</th>

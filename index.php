@@ -1,10 +1,9 @@
 <?php
 
 	session_start();
+	require_once("vendor/autoload.php");
 
 	use \Slim\Slim;
-
-	require_once("vendor/autoload.php");
 
 	$app = new Slim();
 
@@ -16,6 +15,7 @@
 	require_once('admin-users.php');
 	require_once('admin-categories.php');
 	require_once('admin-products.php');
+	require_once('admin-orders.php');
 	
 	$app->run();
 ?>

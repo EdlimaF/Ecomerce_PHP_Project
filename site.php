@@ -10,16 +10,7 @@
 	use \Hcode\Model\Order;
 	use \Hcode\Model\OrderStatus;
 
-	$app->get('/', function() {
-
-		$products = Product::listAll();
-
-		$page = new Page();
-
-		$page->setTpl('index', [
-			'products'=>Product::checkList($products),
-		]);
-	});
+	
 
 	
 	$app->get('/categories/:idcategory', function($idcategory){
@@ -64,20 +55,6 @@
 		]);
 	});
 
-	$app->get('/cart', function(){
-
-		$cart = Cart::getFromSession();
-
-		$page = new Page();
-
-		$page->setTpl('cart', [
-			'cart'=>$cart->getValues(),
-			'products'=>$cart->getProducts(),
-			'error'=>Cart::getMsgError()			
-		]);
-
-	});
-
 	$app->get('/cart/:idproduct/add', function($idproduct){
 
 		$product = new Product();
@@ -93,6 +70,7 @@
 		header('Location: /cart');
 		exit;
 	});
+
 
 	$app->get('/cart/:idproduct/minus', function($idproduct){
 
@@ -122,6 +100,7 @@
 		exit;
 	});
 
+
 	$app->post('/cart/freight', function(){
 
 		$cart = Cart::getFromSession();
@@ -130,6 +109,20 @@
 
 		header('Location: /cart');
 		exit;
+
+	});
+
+	$app->get('/cart', function(){
+
+		$cart = Cart::getFromSession();
+
+		$page = new Page();
+
+		$page->setTpl('cart', [
+			'cart'=>$cart->getValues(),
+			'products'=>$cart->getProducts(),
+			'error'=>Cart::getMsgError()			
+		]);
 
 	});
 
@@ -391,23 +384,6 @@
 	});
 
 
-	$app->get('/forgot', function() {
-
-		$page = new Page();
-
-		$page->setTpl('forgot');
-
-	});
-
-	$app->post('/forgot', function() {
-		
-		$user = User::getForgot($_POST['email'], false);
-
-		header('Location: /forgot/sent');
-		exit;
-
-	});
-
 	$app->get('/forgot/sent', function() {
 
 		$page = new Page();
@@ -444,6 +420,23 @@
 		$page = new Page();
 
 		$page->setTpl('forgot-reset-success');
+
+	});
+
+	$app->get('/forgot', function() {
+
+		$page = new Page();
+
+		$page->setTpl('forgot');
+
+	});
+
+	$app->post('/forgot', function() {
+		
+		$user = User::getForgot($_POST['email'], false);
+
+		header('Location: /forgot/sent');
+		exit;
 
 	});
 
@@ -552,7 +545,7 @@
 		$dadosboleto["valor_boleto"] = $valor_boleto; 	// Valor do Boleto - REGRA: Com vírgula e sempre com duas casas depois da virgula
 
 		// DADOS DO SEU CLIENTE
-		$dadosboleto["sacado"] = utf8_encode($order->getdesperson());
+		$dadosboleto["sacado"] = $order->getdesperson();
 		$dadosboleto["endereco1"] =  utf8_encode($order->getdesaddress().' '.$order->getdesdistrict().' '.$order->getdescomplement());
 		$dadosboleto["endereco2"] =  utf8_encode($order->getdescity().'-'.$order->getdesstate().'  CEP:'.$order->getdeszipcode().' '.$order->getdecountry());
 
@@ -562,7 +555,7 @@
 		$dadosboleto["demonstrativo3"] = "";
 		$dadosboleto["instrucoes1"] = "- Sr. Caixa, cobrar multa de 2% após o vencimento";
 		$dadosboleto["instrucoes2"] = "- Receber até 10 dias após o vencimento";
-		$dadosboleto["instrucoes3"] = "- Em caso de dúvidas entre em contato conosco: edlimaf@msn.com";
+		$dadosboleto["instrucoes3"] = "- Em caso de dúvidas entre em contato conosco: email@mail.com";
 		$dadosboleto["instrucoes4"] = "&nbsp; Emitido pelo sistema Lima & Cia. E-commerce não tem validade é apenas um teste";
 
 		// DADOS OPCIONAIS DE ACORDO COM O BANCO OU CLIENTE
@@ -600,20 +593,6 @@
 
 	});
 
-	$app->get('/profile/orders', function(){
-
-		User::verifyLogin(false);
-
-		$user = User::getFromSession();
-
-		$page = new Page();
-
-		$page->setTpl('profile-orders', [
-			'orders'=>$user->getOrders()
-		]);
-
-	});
-
 	$app->get('/profile/orders/:idorder', function($idorder){
 
 		User::verifyLogin(false);
@@ -629,6 +608,21 @@
 		$page->setTpl('profile-orders-detail', [
 			'order'=>$order->getValues(),
 			'products'=>$order->getProducts($idorder)
+		]);
+
+	});
+
+
+	$app->get('/profile/orders', function(){
+
+		User::verifyLogin(false);
+
+		$user = User::getFromSession();
+
+		$page = new Page();
+
+		$page->setTpl('profile-orders', [
+			'orders'=>$user->getOrders()
 		]);
 
 	});
@@ -709,7 +703,15 @@
 		
 	});
 
+	$app->get('/', function() {
 
+		$products = Product::listAll();
 
+		$page = new Page();
+
+		$page->setTpl('index', [
+			'products'=>Product::checkList($products),
+		]);
+	});
 
 ?>
