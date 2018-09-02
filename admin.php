@@ -69,6 +69,24 @@
 
 	$app->post('/admin/login', function() {
 
+		if (!isset($_POST['login']) || $_POST['login'] == '') {
+			
+			User::setError('Informe o login');
+
+			header('Location: /admin/login');
+			exit;
+
+		}
+
+		if (!isset($_POST['password']) || $_POST['password'] == '') {
+			
+			User::setError('Informe a senha');
+
+			header('Location: /admin/login');
+			exit;
+
+		}
+
 		try {
 			
 			User::login($_POST['login'], $_POST['password']);
@@ -79,8 +97,27 @@
 			
 		}
 
-		header('Location: /admin');
+		$error = User::getError();
+
+		$user = User::getFromSession();
+
+		if (!(bool)$user->getinadmin() && $error == '') {
+
+			User::setError('Usuario sem autorização');
+
+			header('Location: /admin/login');
+			exit;
+			
+		} else {
+
+			User::setError($error);
+
+			header('Location: /admin');
 		exit;
+			
+		}
+
+		
 	});
 
 	$app->get('/admin/logout', function() {

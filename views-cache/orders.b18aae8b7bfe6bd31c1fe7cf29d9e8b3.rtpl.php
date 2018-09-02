@@ -18,11 +18,25 @@
   	<div class="col-md-12">
   		<div class="box box-primary">
 
+          <div class="box-header">
+            <div class="box-tools">
+                <form action="/admin/orders">
+                  <div class="input-group input-group-sm" style="width: 150px;">
+                    <input type="text" name="search" class="form-control pull-right" placeholder="Search" value="<?php echo htmlspecialchars( $search, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
+                    <div class="input-group-btn">
+                      <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
             <div class="box-body no-padding">
               <table class="table table-striped">
                 <thead>
                   <tr>
                     <th style="width: 10px">ID</th>
+                    <th>Data</th>
                     <th>Cliente</th>
                     <th>Valor Total</th>
                     <th>Valor do Frete</th>
@@ -34,6 +48,7 @@
                   <?php $counter1=-1;  if( isset($orders) && ( is_array($orders) || $orders instanceof Traversable ) && sizeof($orders) ) foreach( $orders as $key1 => $value1 ){ $counter1++; ?>
                   <tr>
                     <td><?php echo htmlspecialchars( $value1["idorder"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                    <td><?php echo formatDate($value1["dtregister"]); ?></td>
                     <td><?php echo htmlspecialchars( $value1["desperson"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
                     <td>R$<?php echo formatPrice($value1["vltotal"]); ?></td>
                     <td>R$<?php echo formatPrice($value1["vlfreight"]); ?></td>
@@ -53,6 +68,13 @@
               </table>
             </div>
             <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <ul class="pagination pagination-sm no-margin pull-right">
+                <?php $counter1=-1;  if( isset($pages) && ( is_array($pages) || $pages instanceof Traversable ) && sizeof($pages) ) foreach( $pages as $key1 => $value1 ){ $counter1++; ?>
+                <li><a href="<?php echo htmlspecialchars( $value1["href"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["text"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a></li>
+                <?php } ?>
+              </ul>
+            </div>
           </div>
   	</div>
   </div>

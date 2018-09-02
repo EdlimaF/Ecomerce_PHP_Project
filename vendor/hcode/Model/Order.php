@@ -45,7 +45,8 @@
 	  	$sql = new Sql();
 
 	  	$results = $sql->select('
-	  		SELECT * 
+	  		SELECT *,
+	  		a.dtregister 
 	  		FROM tb_orders a 
 	  		INNER JOIN tb_ordersstatus b USING(idstatus)
 	  		INNER JOIN tb_users d ON d.iduser = a.iduser
@@ -61,6 +62,68 @@
 	  	}
 
 	  }
+
+	  // Paginação dos itens no site
+		public static function getOrdersPage($page = 1, $itemsPerPage = 10)
+		{
+
+			$start =($page - 1) * $itemsPerPage;
+
+			$sql = new Sql();
+
+			$results = $sql->select("
+					SELECT SQL_CALC_FOUND_ROWS 
+					*,
+					a.dtregister
+					FROM tb_orders a
+					INNER JOIN tb_ordersstatus b USING(idstatus)
+					INNER JOIN tb_users c USING(iduser)
+					INNER JOIN tb_persons d USING(idperson)
+					ORDER BY a.dtregister DESC
+					LIMIT $start, $itemsPerPage;
+				");
+
+			$resultTotal = $sql->select('SELECT FOUND_ROWS() AS nrtotal;');
+
+			return [
+				'data'=>$results,
+				'total'=>(int)$resultTotal[0]['nrtotal'],
+				'pages'=>ceil($resultTotal[0]['nrtotal'] / $itemsPerPage)
+			];
+		} // Fim paginação dos itens no site
+
+	
+		// Paginação dos itens com busca
+		public static function getPagesearch($search, $page = 1, $itemsPerPage = 10)
+		{
+
+			$start =($page - 1) * $itemsPerPage;
+
+			$sql = new Sql();
+
+			$results = $sql->select("
+					SELECT SQL_CALC_FOUND_ROWS *,
+					a.dtregister
+					FROM tb_orders a
+					INNER JOIN tb_ordersstatus b USING(idstatus)
+					INNER JOIN tb_users c USING(iduser)
+					INNER JOIN tb_persons d USING(idperson)
+					WHERE a.idorder = :id OR d.desperson LIKE :search OR b.desstatus LIKE :search
+					ORDER BY a.dtregister DESC
+					LIMIT $start, $itemsPerPage;
+				", [
+					':search'=>'%'.$search.'%',
+					':id'=>$search
+				]);
+
+			$resultTotal = $sql->select('SELECT FOUND_ROWS() AS nrtotal;');
+
+			return [
+				'data'=>$results,
+				'total'=>(int)$resultTotal[0]['nrtotal'],
+				'pages'=>ceil($resultTotal[0]['nrtotal'] / $itemsPerPage)
+			];
+		} // Fim Paginação dos itens com busca
 
 	  public function getProducts($idorder)
 	  {
@@ -96,7 +159,8 @@
 			$sql = new Sql();
 
 			return $sql->select('
-	  		SELECT * 
+	  		SELECT *,
+	  		a.dtregister 
 	  		FROM tb_orders a 
 	  		INNER JOIN tb_ordersstatus b USING(idstatus)
 	  		INNER JOIN tb_users d ON d.iduser = a.iduser

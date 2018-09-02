@@ -84,8 +84,6 @@
 
 				$user = new User();
 
-				//$data['desperson'] = utf8_encode($data['desperson']);
-
 				$user->setData($data);
 
 				$_SESSION[User::SESSION] = $user->getValues();
@@ -107,7 +105,9 @@
 			if (!User::checkLogin($inadmin)) {
 
 				if ($inadmin) {
+
 					header('Location: /admin/login');
+					
 				} else {
 
 					if ($checkout) $_SESSION['checkout'] = true;
@@ -163,8 +163,6 @@
 			));
 
 			$data = $results[0];
-
-			//$data['desperson'] = utf8_encode($data['desperson']);
 
 			$this->setData($data);
 
@@ -236,7 +234,7 @@
 				':iduser'     =>$this->getiduser(),
 				':desperson'  =>$this->getdesperson(),
 				':deslogin'   =>$this->getdeslogin(),
-				':despassword'=>$this->getdespassword(),
+				':despassword'=>User::getPasswordHash($this->getdespassword()),
 				':desemail'   =>$this->getdesemail(),
 				':nrphone'    =>$this->getnrphone(),
 				':inadmin'    =>$this->getinadmin()

@@ -75,9 +75,6 @@
 
 		$order->get((int)$idorder);
 
-		// var_dump($order);
-		// exit;
-
 		$page = new PageAdmin();
 
 		$page->setTpl('order', [
@@ -91,10 +88,36 @@
 
 		User::verifyLogin();
 
+		$search = (isset($_GET['search'])) ? $_GET['search'] : '';
+
+		$page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+
+		if ($search != '') {
+			$pagination = Order::getPageSearch($search, $page);
+		} else {
+			$pagination = Order::getOrdersPage($page);
+		}
+
+		$pages = [];
+
+		for ($i = 1; $i <= $pagination['pages']; $i++) {
+
+			array_push($pages, [
+				'href'=>'/admin/orders?'.http_build_query([
+					'page'=>$i,
+					'search'=>$search
+				]),
+				'text'=>$i
+			]);
+			
+		}
+
 		$page = new PageAdmin();
 
 		$page->setTpl('orders', [
-			'orders'=>Order::listAll()
+			'orders'=>$pagination['data'],
+			'search'=>$search,
+			'pages'=>$pages
 		]);
 
 	});

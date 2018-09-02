@@ -160,4 +160,69 @@
 		exit;
 	});
 
+	$app->get('/admin/users/:iduser/password', function($iduser){
+
+		User::verifyLogin();
+
+		$page = new PageAdmin();
+
+		$page->setTpl('users-password', [
+			'iduser'=>$iduser,
+			'msgError'=>User::getError(),
+			'msgSuccess'=>User::getSuccess()
+		]);
+
+	});
+
+	$app->post('/admin/users/:iduser/password', function($iduser){
+
+		User::verifyLogin();
+
+		// validação de campos
+		if (!isset($_POST['despassword']) || $_POST['despassword'] == '') {
+
+			User::setError('Informe a nova senha!');
+
+			header('Location: /admin/users/'.$iduser.'/password');
+			exit;
+			
+		} else if (!isset($_POST['despassword-confirm']) || $_POST['despassword-confirm'] == '') {
+
+			User::setError('Confirme a nova senha!');
+
+			header('Location: /admin/users/'.$iduser.'/password');
+			exit;
+			
+		} else if ($_POST['despassword'] != $_POST['despassword-confirm']) {
+
+			User::setError('Confirmação da nova senha invalida!');
+
+			header('Location: /admin/users/'.$iduser.'/password');
+			exit;
+			
+		} else {
+
+			$user = new User();
+
+			$user->get((int)$iduser);
+
+			$user->setPassword($_POST['despassword']);
+
+			$currenLogin = User::getFromSession()->getdeslogin();
+
+			// Atualiza usuario da seção
+			if ($currenLogin == $user->getdeslogin()) {
+				$user->login($currenLogin, $_POST['despassword']);
+			}
+			
+			User::setSuccess('Senha modificada com sucesso.');
+
+			header('Location: /admin/users/'.$iduser.'/password');
+			exit;
+		}
+
+	});
+
+
+
 ?>
