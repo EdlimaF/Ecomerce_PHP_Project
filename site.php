@@ -152,6 +152,7 @@
 		}
 
 		if (!$address->getdesaddress()) $address->setdesaddress('');
+		if (!$address->getdesnumber()) $address->setdesnumber('');
 		if (!$address->getdecomplement()) $address->setdescomplement('');
 		if (!$address->getdesdistrict()) $address->setdesdistrict('');
 		if (!$address->getdescity()) $address->setdescity('');
@@ -186,6 +187,12 @@
 		} else if(!isset($_POST['desaddress']) || $_POST['desaddress'] == '') { 
 
 			Address::setMsgError('Informe o endereço');
+			header('Location: /checkout');
+			exit;
+
+		} else if(!isset($_POST['desnumber']) || $_POST['desnumber'] == '') { 
+
+			Address::setMsgError('Informe o número');
 			header('Location: /checkout');
 			exit;
 
@@ -376,7 +383,18 @@
 
 			User::login($_POST['email'], $_POST['password']);
 
-			header('Location: /checkout');
+			// Verifica se o usuario esta vindo do checkout
+			if (isset($_SESSION['checkout']) && $_SESSION['checkout'] == true) {
+
+				$_SESSION['checkout'] = NULL;
+
+				header('Location: /checkout');
+				exit;
+				
+			}
+
+			header('Location: /');
+			
 			exit;
 
 		}
@@ -496,7 +514,7 @@
 
 			$user->update();
 
-			User::setSucess('Dados alterados com sucesso!');
+			User::setSuccess('Dados alterados com sucesso!');
 
 			$_SESSION[User::SESSION] = $user->getValues();
 
@@ -546,7 +564,7 @@
 
 		// DADOS DO SEU CLIENTE
 		$dadosboleto["sacado"] = $order->getdesperson();
-		$dadosboleto["endereco1"] =  utf8_encode($order->getdesaddress().' '.$order->getdesdistrict().' '.$order->getdescomplement());
+		$dadosboleto["endereco1"] =  utf8_encode($order->getdesaddress().' '.'N&ordm;'.$order->getdesnumber().' '.$order->getdesdistrict().' '.$order->getdescomplement());
 		$dadosboleto["endereco2"] =  utf8_encode($order->getdescity().'-'.$order->getdesstate().'  CEP:'.$order->getdeszipcode().' '.$order->getdecountry());
 
 		// INFORMACOES PARA O CLIENTE
@@ -686,12 +704,8 @@
 
 		} else {
 
-			// echo 'Passou';
-			// exit;
 
-			$user->setdespassword($_POST['new_pass']);
-
-			$user->update();
+			$user->setPassword($_POST['new_pass']);
 
 			User::login($user->getdeslogin(), $_POST['new_pass']);
 

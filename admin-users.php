@@ -137,7 +137,9 @@
 		$page = new PageAdmin();
 
 		$page->setTpl("users-update", array(
-        "user"=>$user->getValues()
+        "user"=>$user->getValues(),
+        'msgError'=>User::getError(),
+        'msgSuccess'=>User::getSuccess()
     ));
 	});
 
@@ -146,18 +148,76 @@
 
 		User::verifyLogin();
 
-		$user = new User();
+		if (!isset($_POST['desperson']) || $_POST['desperson'] == '') {
 
-		$_POST['inadmin'] = (isset($_POST['inadmin']))?1:0;
+			User::setError('Informe o nome do usuário');
+			header('Location: /admin/users/'.$iduser);
+			exit;
 
-		$user->get((int)$iduser);
+		} else if (!isset($_POST['deslogin']) || $_POST['deslogin'] == '') {
 
-		$user->setData($_POST);
+			User::setError('Informe o login do usuário');
+			header('Location: /admin/users/'.$iduser);
+			exit;
+			
+		} else if (!isset($_POST['desemail']) || $_POST['desemail'] == '') {
 
-		$user->update();
+			User::setError('Informe o email do usuário');
+			header('Location: /admin/users/'.$iduser);
+			exit;
+			
+		} else {
 
-		header('Location: /admin/users');
-		exit;
+			if (isset($_POST['despassword']) && $_POST['despassword'] != '') {
+
+				if (!isset($_POST['despassword_c']) || $_POST['despassword_c'] == '') {
+
+					User::setError('Confirme a nova senha');
+					header('Location: /admin/users/'.$iduser);
+					exit;
+
+				} else if ($_POST['despassword_c'] != $_POST['despassword']) {
+
+					User::setError('Erro na confirmação da senha');
+					header('Location: /admin/users/'.$iduser);
+					exit;
+
+				} else {
+					$password = $_POST['despassword'];
+				}
+
+			}
+
+
+			$_POST['inadmin'] = (isset($_POST['inadmin']))?1:0;
+		
+			$user = new User();
+
+			$user->get((int)$iduser);
+
+			if (!isset($password) || $password == '') {
+				$_POST['despassword'] = $user->getdespassword();
+			}	else {
+				$_POST['despassword'] = User::getPasswordHash($password);
+			}	
+
+			$user->setData($_POST);
+
+			$user->update();
+
+			$currenLogin = User::getFromSession()->getdeslogin();
+
+			// Atualiza usuario da seção
+			if ($currenLogin == $user->getdeslogin()) {
+				$user->login($currenLogin, $_POST['despassword']);
+			}
+			
+			User::setSuccess('Dados salvos com sucesso.');
+
+			header('Location: /admin/users/'.$iduser);
+			exit;
+		} 
+			
 	});
 
 	$app->get('/admin/users/:iduser/password', function($iduser){
