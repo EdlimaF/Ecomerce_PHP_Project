@@ -1,7 +1,7 @@
 <?php 
 
-	use \Hcode\PageAdmin;
-	use \Hcode\Model\User;
+	use \Aplication\PageAdmin;
+	use \Aplication\Model\User;
 	
 	
 	// Rotas (CRUD)
@@ -72,7 +72,19 @@
 
 		$_SESSION['registerValues'] = $_POST;
 
-		if (User::checkLoginExist($_POST['deslogin']) === true) {
+		if (!isset($_POST['desperson']) || $_POST['desperson'] === '') {
+			
+			User::setErrorRegister('Informe o nome do usuário.');
+			header('Location: /admin/users/create');
+			exit;
+
+		} else if (!isset($_POST['deslogin']) || $_POST['deslogin'] === '') {
+			
+			User::setErrorRegister('Informe o login do usuário.');
+			header('Location: /admin/users/create');
+			exit;
+
+		} else if (User::checkLoginExist($_POST['deslogin']) === true) {
 			
 			User::setErrorRegister('Este login já está sendo usado por outro usuário.');
 			header('Location: /admin/users/create');
@@ -80,13 +92,31 @@
 
 		} else if(isset($_POST['nrphone']) && !$_POST['nrphone'] == '' && !is_numeric($_POST['nrphone'])) { 
 
-			User::setErrorRegister('Preencha o telefone apenas com numeros');
+			User::setErrorRegister('Preencha o telefone apenas com numeros.');
+			header('Location: /admin/users/create');
+			exit;
+
+		} else if (!isset($_POST['desemail']) || $_POST['desemail'] === '') {
+			
+			User::setErrorRegister('Informe o email do usuário.');
 			header('Location: /admin/users/create');
 			exit;
 
 		} else if (User::checkEmailExist($_POST['desemail']) === true) {
 			
 			User::setErrorRegister('Este endereço de e-mail já está sendo usado por outro usuário.');
+			header('Location: /admin/users/create');
+			exit;
+
+		} else if (!isset($_POST['despassword']) || $_POST['despassword'] === '') {
+			
+			User::setErrorRegister('Informe a senha do usuário.');
+			header('Location: /admin/users/create');
+			exit;
+
+		} else if (!isset($_POST['despassword_c']) || $_POST['despassword_c'] === '') {
+			
+			User::setErrorRegister('Confirme a senha do usuário.');
 			header('Location: /admin/users/create');
 			exit;
 
@@ -121,6 +151,14 @@
 
 		$user->delete();
 
+		$currentid = (int)User::getFromSession()->getiduser();
+
+		// Atualiza usuario da seção
+		if ($currentid == $iduser) {
+			User::logout();
+			User::verifyLogin();
+		}
+
 		header('Location: /admin/users');
 		exit;
 
@@ -148,21 +186,37 @@
 
 		User::verifyLogin();
 
+		$user = new User();
+
+		$user->get((int)$iduser);
+
 		if (!isset($_POST['desperson']) || $_POST['desperson'] == '') {
 
-			User::setError('Informe o nome do usuário');
+			User::setError('Informe o nome do usuário.');
 			header('Location: /admin/users/'.$iduser);
 			exit;
 
 		} else if (!isset($_POST['deslogin']) || $_POST['deslogin'] == '') {
 
-			User::setError('Informe o login do usuário');
+			User::setError('Informe o login do usuário.');
 			header('Location: /admin/users/'.$iduser);
 			exit;
 			
+		} else if (User::checkLoginExist($_POST['deslogin']) === true && $_POST['deslogin'] != $user->getdeslogin()) {
+
+			User::setError('Este login já está sendo usado por outro usuário.');
+			header('Location: /admin/users/'.$iduser);
+			exit;
+
 		} else if (!isset($_POST['desemail']) || $_POST['desemail'] == '') {
 
-			User::setError('Informe o email do usuário');
+			User::setError('Informe o email do usuário.');
+			header('Location: /admin/users/'.$iduser);
+			exit;
+			
+		} else if (User::checkEmailExist($_POST['desemail']) === true && $_POST['desemail'] != $user->getdesemail()) {
+
+			User::setError('Este endereço de e-mail já está sendo usado por outro usuário.');
 			header('Location: /admin/users/'.$iduser);
 			exit;
 			
@@ -172,47 +226,49 @@
 
 				if (!isset($_POST['despassword_c']) || $_POST['despassword_c'] == '') {
 
-					User::setError('Confirme a nova senha');
+					User::setError('Confirme a nova senha.');
 					header('Location: /admin/users/'.$iduser);
 					exit;
 
 				} else if ($_POST['despassword_c'] != $_POST['despassword']) {
 
-					User::setError('Erro na confirmação da senha');
+					User::setError('Erro na confirmação da senha.');
 					header('Location: /admin/users/'.$iduser);
 					exit;
 
 				} else {
-					$password = $_POST['despassword'];
+
+
+					$_POST['despassword'] = User::getPasswordHash($_POST['despassword']);
+
 				}
 
+			} else {
+				unset($_POST['despassword']);
 			}
-
 
 			$_POST['inadmin'] = (isset($_POST['inadmin']))?1:0;
 		
-			$user = new User();
-
-			$user->get((int)$iduser);
-
-			if (!isset($password) || $password == '') {
-				$_POST['despassword'] = $user->getdespassword();
-			}	else {
-				$_POST['despassword'] = User::getPasswordHash($password);
-			}	
-
 			$user->setData($_POST);
 
 			$user->update();
 
-			$currenLogin = User::getFromSession()->getdeslogin();
+			$currentIduser = User::getFromSession()->getiduser();
 
 			// Atualiza usuario da seção
-			if ($currenLogin == $user->getdeslogin()) {
-				$user->login($currenLogin, $_POST['despassword']);
+			if ($currentIduser == $iduser) {
+
+			 	$_SESSION[User::SESSION] = $user->getValues();
+
+			 	//Se não for administrador não tem mensage, vai voltar pro login
+				if ($_POST['inadmin'] == 1) {
+					User::setSuccess('Dados salvos com sucesso.');
+				}
+
+			} else {
+				User::setSuccess('Dados salvos com sucesso.');
 			}
-			
-			User::setSuccess('Dados salvos com sucesso.');
+
 
 			header('Location: /admin/users/'.$iduser);
 			exit;
@@ -268,11 +324,11 @@
 
 			$user->setPassword($_POST['despassword']);
 
-			$currenLogin = User::getFromSession()->getdeslogin();
+			$currentLogin = User::getFromSession()->getdeslogin();
 
 			// Atualiza usuario da seção
-			if ($currenLogin == $user->getdeslogin()) {
-				$user->login($currenLogin, $_POST['despassword']);
+			if ($currentLogin == $user->getdeslogin()) {
+				$_SESSION[User::SESSION] = $user->getValues();
 			}
 			
 			User::setSuccess('Senha modificada com sucesso.');

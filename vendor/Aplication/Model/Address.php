@@ -1,9 +1,9 @@
 <?php
 
-	namespace Hcode\Model;
+	namespace Aplication\Model;
 
-	use \Hcode\Db\Sql;
-	use \Hcode\Model;
+	use \Aplication\Db\Sql;
+	use \Aplication\Model;
 
 	class Address extends  Model	{
 
@@ -53,9 +53,9 @@
 
 			$sql = new Sql();
 
-			$results = $sql->select('CALL sp_addresses_save(:idaddress, :idperson, :desaddress, :desnumber, :descomplement, :descity, :desstate, :descountry, :deszipcode, :desdistrict)', [
+			$results = $sql->select('CALL sp_addresses_save(:idaddress, :idorder, :desaddress, :desnumber, :descomplement, :descity, :desstate, :descountry, :deszipcode, :desdistrict)', [
 				':idaddress'=>$this->getidaddress(),
-				':idperson'=>$this->getidperson(),
+				':idorder'=>$this->getidorder(),
 				':desaddress'=>utf8_decode($this->getdesaddress()),
 				':desnumber'=>$this->getdesnumber(),
 				':descomplement'=>utf8_decode($this->getdescomplement()),

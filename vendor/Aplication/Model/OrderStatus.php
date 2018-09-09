@@ -1,9 +1,9 @@
 <?php 
 
-	namespace Hcode\Model;
+	namespace Aplication\Model;
 
-	use \Hcode\DB\Sql;
-	use \Hcode\Model;
+	use \Aplication\DB\Sql;
+	use \Aplication\Model;
 	
 
 	class OrderStatus extends Model

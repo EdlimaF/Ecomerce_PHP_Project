@@ -1,20 +1,20 @@
 <?php
 
-	namespace Hcode\Model;
+	namespace Aplication\Model;
 
-	use \Hcode\Db\Sql;
-	use \Hcode\Model;
+	use \Aplication\Db\Sql;
+	use \Aplication\Model;
 	
 
 	class Product extends  Model 
 	{
 
-		public static function listAll()
+		public static function listAll($order = 'desproduct', $limit = '')
 		{
 
 			$sql = new Sql();
 
-			return $sql->select('SELECT * FROM tb_products ORDER BY desproduct');
+			return $sql->select('SELECT * FROM tb_products	ORDER BY '.$order.' '.$limit);
 		}
 
 		public static function CheckList($list)

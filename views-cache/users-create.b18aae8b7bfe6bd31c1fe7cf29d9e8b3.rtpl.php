@@ -23,7 +23,7 @@
         </div>
         <?php if( $error != '' ){ ?>
         <div class="alert alert-danger">
-          <?php echo htmlspecialchars( $error, ENT_COMPAT, 'UTF-8', FALSE ); ?> !
+          <?php echo htmlspecialchars( $error, ENT_COMPAT, 'UTF-8', FALSE ); ?>
         </div>
         <?php } ?>
         <!-- /.box-header -->
@@ -32,11 +32,11 @@
           <div class="box-body">
             <div class="form-group">
               <label for="desperson">Nome</label>
-              <input type="text" class="form-control" id="desperson" name="desperson" placeholder="Digite o nome" value="<?php echo htmlspecialchars( $registerValues["desperson"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" required>
+              <input type="text" class="form-control" id="desperson" name="desperson" placeholder="Digite o nome" value="<?php echo htmlspecialchars( $registerValues["desperson"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
             </div>
             <div class="form-group">
               <label for="deslogin">Login</label>
-              <input type="text" class="form-control" id="deslogin" name="deslogin" placeholder="Digite o login" value="<?php echo htmlspecialchars( $registerValues["deslogin"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" required>
+              <input type="text" class="form-control" id="deslogin" name="deslogin" placeholder="Digite o login" value="<?php echo htmlspecialchars( $registerValues["deslogin"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
             </div>
             <div class="form-group">
               <label for="nrphone">Telefone</label>
@@ -44,15 +44,15 @@
             </div>
             <div class="form-group">
               <label for="desemail">E-mail</label>
-              <input type="email" class="form-control" id="desemail" name="desemail" placeholder="Digite o e-mail" value="<?php echo htmlspecialchars( $registerValues["desemail"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" required>
+              <input type="email" class="form-control" id="desemail" name="desemail" placeholder="Digite o e-mail" value="<?php echo htmlspecialchars( $registerValues["desemail"], ENT_COMPAT, 'UTF-8', FALSE ); ?>">
             </div>
             <div class="form-group">
               <label for="despassword">Senha</label>
-              <input type="password" class="form-control" id="despassword" name="despassword" placeholder="Digite a senha" required>
+              <input type="password" class="form-control" id="despassword" name="despassword" placeholder="Digite a senha">
             </div>
             <div class="form-group">
-              <label for="despassword">Confire a senha</label>
-              <input type="password" class="form-control" id="despassword_c" name="despassword_c" placeholder="Digite a senha" required>
+              <label for="despassword">Confirme a senha</label>
+              <input type="password" class="form-control" id="despassword_c" name="despassword_c" placeholder="Digite a senha">
             </div>
             <div class="checkbox">
               <label>

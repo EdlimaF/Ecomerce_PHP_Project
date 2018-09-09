@@ -40,7 +40,7 @@
                             <th scope="row">{$value.idorder}</th>
                             <td>R${function="formatPrice($value.vltotal)"}</td>
                             <td>{$value.desstatus}</td>
-                            <td>{function="utf8_encode($value.desaddress)"}, {function="utf8_encode($value.desdistrict)"}, {function="utf8_encode($value.descity)"}-{function="utf8_encode($value.desstate)"} CEP:{$value.deszipcode}</td>
+                            <td>{function="utf8_encode($value.desaddress)"}, {function="utf8_encode($value.desnumber)"} {function="utf8_encode($value.desdistrict)"}, {function="utf8_encode($value.descity)"}-{function="utf8_encode($value.desstate)"} CEP:{$value.deszipcode}</td>
                             <td style="width:222px;">
                                 <a class="btn btn-success" href="/order/{$value.idorder}" role="button">Imprimir Boleto</a>
                                 <a class="btn btn-default" href="/profile/orders/{$value.idorder}" role="button">Detalhes</a>

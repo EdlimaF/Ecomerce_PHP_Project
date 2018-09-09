@@ -43,7 +43,7 @@
                             <th scope="row"><?php echo htmlspecialchars( $value1["idorder"], ENT_COMPAT, 'UTF-8', FALSE ); ?></th>
                             <td>R$<?php echo formatPrice($value1["vltotal"]); ?></td>
                             <td><?php echo htmlspecialchars( $value1["desstatus"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
-                            <td><?php echo utf8_encode($value1["desaddress"]); ?>, <?php echo utf8_encode($value1["desdistrict"]); ?>, <?php echo utf8_encode($value1["descity"]); ?>-<?php echo utf8_encode($value1["desstate"]); ?> CEP:<?php echo htmlspecialchars( $value1["deszipcode"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
+                            <td><?php echo utf8_encode($value1["desaddress"]); ?>, <?php echo utf8_encode($value1["desnumber"]); ?> <?php echo utf8_encode($value1["desdistrict"]); ?>, <?php echo utf8_encode($value1["descity"]); ?>-<?php echo utf8_encode($value1["desstate"]); ?> CEP:<?php echo htmlspecialchars( $value1["deszipcode"], ENT_COMPAT, 'UTF-8', FALSE ); ?></td>
                             <td style="width:222px;">
                                 <a class="btn btn-success" href="/order/<?php echo htmlspecialchars( $value1["idorder"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" role="button">Imprimir Boleto</a>
                                 <a class="btn btn-default" href="/profile/orders/<?php echo htmlspecialchars( $value1["idorder"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" role="button">Detalhes</a>

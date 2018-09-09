@@ -1,8 +1,8 @@
 <?php
 	
 	use \Slim\Slim;
-	use \Hcode\PageAdmin;
-	use \Hcode\Model\User;
+	use \Aplication\PageAdmin;
+	use \Aplication\Model\User;
 
 	require_once('index.php');
 

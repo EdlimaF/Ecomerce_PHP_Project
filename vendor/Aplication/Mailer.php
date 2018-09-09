@@ -1,6 +1,6 @@
 <?php
 
-	namespace Hcode;
+	namespace Aplication;
 
 	use Rain\Tpl;
 
@@ -11,7 +11,7 @@
 	{
 		
 		const USERNAME  = 'edlimaf.ef@gmail.com';
-		const PASSWORD  = '*********';
+		const PASSWORD  = '**************';
 		const NAME_FROM = 'Lojas Lima & Cia.';
 
 		private $mail;

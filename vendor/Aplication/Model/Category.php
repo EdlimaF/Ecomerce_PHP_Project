@@ -1,9 +1,9 @@
 <?php
 
-	namespace Hcode\Model;
+	namespace Aplication\Model;
 
-	use \Hcode\Db\Sql;
-	use \Hcode\Model;
+	use \Aplication\Db\Sql;
+	use \Aplication\Model;
 
 	class Category extends  Model 
 	{

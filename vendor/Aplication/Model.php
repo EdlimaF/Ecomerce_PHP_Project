@@ -1,6 +1,6 @@
 <?php // Inicio do bloco php
 
-	namespace Hcode;
+	namespace Aplication;
 
 	class Model {
 

@@ -1,9 +1,9 @@
 <?php
 
-	namespace Hcode\Model;
+	namespace Aplication\Model;
 
-	use \Hcode\Db\Sql;
-	use \Hcode\Model;
+	use \Aplication\Db\Sql;
+	use \Aplication\Model;
 
 	class Cart extends  Model 
 	{
@@ -109,10 +109,22 @@
 			}
 		}
 
+		public function delete()
+		{
+
+			$sql = new Sql();
+
+			$sql->query('DELETE FROM tb_carts WHERE idcart = :idcart', [
+				':idcart'=>$this->getidcart()
+			]);
+
+		}
+
 		public function addProduct(Product $product, $qtde = 1)
 		{
 
 			$sql = new Sql();
+
 
 			for ($i = 0; $i < $qtde ; $i++) {
 

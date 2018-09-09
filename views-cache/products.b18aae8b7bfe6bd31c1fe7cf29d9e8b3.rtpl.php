@@ -6,8 +6,8 @@
     Lista de Produtos
   </h1>
   <ol class="breadcrumb">
-    <li><a href="../admin"><i class="fa fa-dashboard"></i> Home</a></li>
-    <li class="active"><a href="../admin/products">Produtos</a></li>
+    <li><a href="/admin"><i class="fa fa-dashboard"></i> Home</a></li>
+    <li class="active"><a href="/admin/products">Produtos</a></li>
   </ol>
 </section>
 
@@ -19,11 +19,11 @@
   		<div class="box box-primary">
             
             <div class="box-header">
-              <a href="../admin/products/create" class="btn btn-success">Cadastrar Produto</a>
+              <a href="/admin/products/create" class="btn btn-success">Cadastrar Produto</a>
               <div class="box-tools">
-                <form action="../admin/products">
+                <form action="/admin/products">
                   <div class="input-group input-group-sm" style="width: 150px;">
-                    <input type="text" name="search" class="form-control pull-right" placeholder="Search">
+                    <input type="text" name="search" class="form-control pull-right" placeholder="Search" value="<?php echo htmlspecialchars( $search, ENT_COMPAT, 'UTF-8', FALSE ); ?>">
                     <div class="input-group-btn">
                       <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
                     </div>
@@ -36,7 +36,7 @@
               <table class="table table-striped">
                 <thead>
                   <tr>
-                    <th style="width: 10px">ID</th>
+                    <th style="width: 10px">#</th>
                     <th>Nome da Produto</th>
                     <th>Preço</th>
                     <th>Largura</th>

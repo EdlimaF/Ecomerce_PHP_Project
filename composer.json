@@ -13,7 +13,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Hcode\\": "vendor/hcode/"
+            "Aplication\\": "vendor/Aplication/"
         }
     }
 }

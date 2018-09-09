@@ -40,8 +40,7 @@
             Para
             <address>
                 <strong><?php echo htmlspecialchars( $order["desperson"], ENT_COMPAT, 'UTF-8', FALSE ); ?></strong><br>
-                <?php echo utf8_encode($order["desaddress"]); ?>, <?php echo utf8_encode($order["descomplement"]); ?><br>
-                <?php echo utf8_encode($order["descity"]); ?>-<?php echo utf8_encode($order["desstate"]); ?><br>
+                <?php echo utf8_encode($order["desaddress"]); ?> <br> N&ordm;<?php echo utf8_encode($order["desnumber"]); ?><?php echo utf8_encode($order["descomplement"]); ?> <?php echo utf8_encode($order["descity"]); ?>-<?php echo utf8_encode($order["desstate"]); ?><br>
                 <?php if( $order["nrphone"] && $order["nrphone"]!='0' ){ ?>Telefone: <?php echo htmlspecialchars( $order["nrphone"], ENT_COMPAT, 'UTF-8', FALSE ); ?><br><?php } ?>
                 E-mail: <?php echo htmlspecialchars( $order["desemail"], ENT_COMPAT, 'UTF-8', FALSE ); ?>
             </address>

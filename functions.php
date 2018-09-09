@@ -1,7 +1,7 @@
 <?php 
 
-	use \Hcode\Model\User;
-	use \Hcode\Model\Cart;
+	use \Aplication\Model\User;
+	use \Aplication\Model\Cart;
 
 	function formatPrice($vlprice)
 	{
@@ -32,6 +32,15 @@
 		$user = User::getFromSession();
 
 		return $user->getdesperson();
+
+	}
+
+	function getUserLogin()
+	{
+
+		$user = User::getFromSession();
+
+		return $user->getdeslogin();
 
 	}
 	

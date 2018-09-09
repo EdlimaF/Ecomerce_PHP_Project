@@ -1,14 +1,14 @@
 <?php
 
 	use \Slim\Slim;
-	use \Hcode\Page;
-	use \Hcode\Model\Category;
-	use \Hcode\Model\Product;
-	use \Hcode\Model\User;
-	use \Hcode\Model\Cart;
-	use \Hcode\Model\Address;
-	use \Hcode\Model\Order;
-	use \Hcode\Model\OrderStatus;
+	use \Aplication\Page;
+	use \Aplication\Model\Category;
+	use \Aplication\Model\Product;
+	use \Aplication\Model\User;
+	use \Aplication\Model\Cart;
+	use \Aplication\Model\Address;
+	use \Aplication\Model\Order;
+	use \Aplication\Model\OrderStatus;
 
 	
 
@@ -224,14 +224,6 @@
 
 			$user = User::getFromSession();
 
-			$address = new Address();
-
-			$_POST['idperson'] = $user->getidperson();
-
-			$address->setData($_POST);
-
-			$address->save();
-
 			$cart = Cart::getFromSession();
 
 			$cart->getCalculateTotal();
@@ -239,8 +231,6 @@
 			$order = new Order();
 
 			$order->setData([
-				'idcart'=>$cart->getidcart(),
-				'idaddress'=>$address->getidaddress(),
 				'iduser'=>$user->getiduser(),
 				'idstatus'=>OrderStatus::EM_ABERTO,
 				'vlfreight'=>$cart->getvlfreight(),
@@ -248,14 +238,29 @@
 				'vltotal'=>$cart->getvltotal()
 			]);
 
-			if ($order->save()){
+			if ($order->save()){ // Se o pedido for salvo
 
-				$products = $cart->getProducts();
+				$products = $cart->getProducts(); // adiciona os produtos ao pedido
 
 				foreach ($products as $value) {
 					$order->addProduct($value);
 				}
+
+				$_POST['idorder'] = $order->getidorder();
+
+				$address = new Address(); // salva o endereço associado ao pedido
+
+				$address->setData($_POST);
+
+				$address->save();
+
+				$cart->delete(); // renova o carrinho da sessão
+
+				unset($_SESSION[Cart::SESSION]);
+
+				$cart = Cart::getFromSession();
 			}
+
 
 			header('Location: /order/'.$order->getidorder());
 			exit;
@@ -719,12 +724,15 @@
 
 	$app->get('/', function() {
 
+		$productsSlide = Product::listAll('dtregister DESC', 'LIMIT 8');
 		$products = Product::listAll();
+	
 
 		$page = new Page();
 
 		$page->setTpl('index', [
-			'products'=>Product::checkList($products),
+			'productsSlide'=>Product::checkList($productsSlide),
+			'products'=>Product::checkList($products)
 		]);
 	});
 

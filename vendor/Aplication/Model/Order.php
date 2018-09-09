@@ -1,10 +1,10 @@
 <?php 
 
-	namespace Hcode\Model;
+	namespace Aplication\Model;
 
-	use \Hcode\DB\Sql;
-	use \Hcode\Model;
-	use \Hcode\Model\Address;
+	use \Aplication\DB\Sql;
+	use \Aplication\Model;
+	use \Aplication\Model\Address;
 	
 
 	class Order extends Model
@@ -18,12 +18,10 @@
 
 	  	$sql = new Sql();
 
-	  	$results = $sql->select('CALL sp_orders_save(:idorder, :idcart, :iduser, :idstatus, :idaddress, :vlfreight, :vlsubtotal, :vltotal)', [
+	  	$results = $sql->select('CALL sp_orders_save(:idorder, :iduser, :idstatus, :vlfreight, :vlsubtotal, :vltotal)', [
 	  		':idorder'=>$this->getidorder(),
-	  		':idcart'=>$this->getidcart(),
 	  		':iduser'=>$this->getiduser(),
 	  		':idstatus'=>$this->getidstatus(),
-	  		':idaddress'=>$this->getidaddress(),
 	  		':vlfreight'=>$this->getvlfreight(),
 	  		':vlsubtotal'=>$this->getvlsubtotal(),
 	  		':vltotal'=>$this->getvltotal()
@@ -49,9 +47,9 @@
 	  		a.dtregister 
 	  		FROM tb_orders a 
 	  		INNER JOIN tb_ordersstatus b USING(idstatus)
-	  		INNER JOIN tb_users d ON d.iduser = a.iduser
-				INNER JOIN tb_addresses e USING(idaddress)
-				INNER join tb_persons f ON f.idperson = d.idperson
+	  		INNER JOIN tb_users d USING(iduser)
+				INNER JOIN tb_addresses e USING(idorder)
+				INNER join tb_persons f USING(iduser)
 				WHERE a.idorder = :idorder
 	  	', [
 	  		':idorder'=>$idorder
@@ -78,7 +76,7 @@
 					FROM tb_orders a
 					INNER JOIN tb_ordersstatus b USING(idstatus)
 					INNER JOIN tb_users c USING(iduser)
-					INNER JOIN tb_persons d USING(idperson)
+					INNER JOIN tb_persons d USING(iduser)
 					ORDER BY a.dtregister DESC
 					LIMIT $start, $itemsPerPage;
 				");
@@ -107,7 +105,7 @@
 					FROM tb_orders a
 					INNER JOIN tb_ordersstatus b USING(idstatus)
 					INNER JOIN tb_users c USING(iduser)
-					INNER JOIN tb_persons d USING(idperson)
+					INNER JOIN tb_persons d USING(iduser)
 					WHERE a.idorder = :id OR d.desperson LIKE :search OR b.desstatus LIKE :search
 					ORDER BY a.dtregister DESC
 					LIMIT $start, $itemsPerPage;
@@ -164,8 +162,8 @@
 	  		FROM tb_orders a 
 	  		INNER JOIN tb_ordersstatus b USING(idstatus)
 	  		INNER JOIN tb_users d ON d.iduser = a.iduser
-				INNER JOIN tb_addresses e USING(idaddress)
-				INNER join tb_persons f ON f.idperson = d.idperson
+				INNER JOIN tb_addresses e USING(idorder)
+				INNER join tb_persons f ON f.iduser = d.iduser
 				ORDER BY a.dtregister DESC
 	  	');
 

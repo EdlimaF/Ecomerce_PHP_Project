@@ -1,10 +1,10 @@
 <?php
 
-	namespace Hcode\Model;
+	namespace Aplication\Model;
 
-	use \Hcode\Db\Sql;
-	use \Hcode\Model;
-	use \Hcode\Mailer;
+	use \Aplication\Db\Sql;
+	use \Aplication\Model;
+	use \Aplication\Mailer;
 
 	class User extends  Model 
 	{
@@ -68,7 +68,7 @@
 
 			$sql = new Sql();
 
-			$results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.idperson = b.idperson WHERE a.deslogin = :LOGIN', [
+			$results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.iduser = b.iduser WHERE a.deslogin = :LOGIN', [
 				':LOGIN'=>$login
 			]);
 
@@ -131,10 +131,11 @@
 
 			$sql = new Sql();
 
-			return $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) ORDER BY b.desperson');
+			return $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(iduser) ORDER BY b.desperson');
 		}
 
-		public function save()
+		// Com stored procedure
+		/*public function save()
 		{
 
 			$sql = new Sql();
@@ -144,13 +145,44 @@
 				':deslogin'=>$this->getdeslogin(),
 				':despassword'=>User::getPasswordHash($this->getdespassword()),
 				':desemail'=>$this->getdesemail(),
-				':nrphone'=>$this->getnrphone(),
+				':nrphone'=>(int)$this->getnrphone(),
 				':inadmin'=>$this->getinadmin()
 			));
 
 			$this->setData($results[0]);
 
 			//return isset($results[0]);
+		}*/
+
+		// Sem Stored Procedure
+		public function save()
+		{
+
+			$sql = new Sql();
+
+			$results = $sql->query('INSERT INTO tb_users (deslogin, despassword, inadmin)
+    		VALUES(:deslogin, :despassword, :inadmin)', array(
+				':deslogin'=>$this->getdeslogin(),
+				':despassword'=>User::getPasswordHash($this->getdespassword()),
+				':inadmin'=>$this->getinadmin()
+			));
+
+			$results = $sql->select('SELECT LAST_INSERT_ID() as lastid FROM tb_users LIMIT 1');
+
+			$iduser = $results[0]['lastid'];
+
+			$sql->query('INSERT INTO tb_persons (iduser, desperson, desemail, nrphone) VALUES (:iduser, :desperson, :desemail, :nrphone)', array(
+				':iduser'=>$iduser,
+				':desperson'=>$this->getdesperson(),
+				':desemail'=>$this->getdesemail(),
+				':nrphone'=>$this->getnrphone()
+			));
+
+			$results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(iduser) WHERE a.iduser = LAST_INSERT_ID()');
+
+			if (count($results) > 0) {
+				$this->setData($results[0]);
+			}
 		}
 
 		public function get($iduser) 
@@ -158,7 +190,7 @@
 
 			$sql = new Sql();
                               
-			$results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) WHERE a.iduser = :iduser', array(
+			$results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(iduser) WHERE a.iduser = :iduser', array(
 				':iduser'=>$iduser
 			));
 
@@ -180,7 +212,7 @@
 			$results = $sql->select("
 					SELECT SQL_CALC_FOUND_ROWS *
 					FROM tb_users a
-					INNER JOIN tb_persons b ON a.idperson = b.idperson
+					INNER JOIN tb_persons b ON a.iduser = b.iduser
 					ORDER BY b.desperson
 					LIMIT $start, $itemsPerPage;
 				");
@@ -206,7 +238,7 @@
 			$results = $sql->select("
 					SELECT SQL_CALC_FOUND_ROWS *
 					FROM tb_users a
-					INNER JOIN tb_persons b ON a.idperson = b.idperson
+					INNER JOIN tb_persons b ON a.iduser = b.iduser
 					WHERE b.desperson Like :search OR b.desemail = :search OR a.deslogin LIKE :search
 					ORDER BY b.desperson
 					LIMIT $start, $itemsPerPage;
@@ -224,7 +256,7 @@
 		} // Fim Paginação dos itens com busca
 
 		
-		public function update()
+		/*public function update()
 		{
 
 			$sql = new Sql();
@@ -240,11 +272,53 @@
 
 			));
 
-			$this->setData($results[0]);
+			if (count($results) > 0) {
+				$this->setData($results[0]);
+			}
+
+		}*/
+
+		// sem stored procedure
+		public function update()
+		{
+
+			$iduser = $this->getiduser();
+
+			$sql = new Sql();
+		
+			$sql->query('
+							UPDATE tb_users
+    					SET	deslogin = :deslogin,	despassword = :despassword,	inadmin = :inadmin
+							WHERE iduser = :iduser;', array(
+				':iduser'     =>$iduser,
+				':deslogin'   =>$this->getdeslogin(),
+				':despassword'=>$this->getdespassword(),
+				':inadmin'    =>$this->getinadmin()
+
+			));
+
+			$sql->query('
+							UPDATE tb_persons
+    					SET desperson = :desperson, desemail = :desemail, nrphone = :nrphone
+							WHERE iduser = :iduser;', array(
+				':iduser'     =>$iduser,
+				':desperson'  =>$this->getdesperson(),
+				':desemail'   =>$this->getdesemail(),
+				':nrphone'    =>$this->getnrphone()
+
+			));
+
+			$results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(iduser) WHERE a.iduser = :iduser', [
+				':iduser'=>$iduser
+			]);
+
+			if (count($results) > 0) {
+				$this->setData($results[0]);
+			}
 
 		}
 
-		public function delete()
+		/*public function delete()
 		{
 
 			$sql = new Sql();
@@ -252,6 +326,22 @@
 			$sql->query('CALL sp_users_delete(:iduser)', array(
 				':iduser'=>$this->getiduser()
 			));
+		}*/
+
+		// sem stored procedure
+		public function delete()
+		{
+
+			$sql = new Sql();
+
+			$results = $sql->query('
+					DELETE FROM tb_orders WHERE iduser = :iduser;
+					DELETE FROM tb_carts WHERE iduser = :iduser;
+					DELETE FROM tb_users WHERE iduser = :iduser;
+				', array(
+				':iduser'=>$this->getiduser()
+			));
+
 		}
 
 		public static function encrypt_decrypt($action, $string, $secret_key, $secret_iv) {
@@ -284,7 +374,7 @@
 			$results = $sql->select('
 				SELECT *
 				FROM tb_persons a
-				INNER JOIN tb_users b USING(idperson)
+				INNER JOIN tb_users b USING(iduser)
 				WHERE a.desemail = :email;
 				', array(
 
@@ -299,11 +389,22 @@
 			{
 				$data = $results[0];
 				
-				$results2 = $sql->select("CALL sp_userspasswordsrecoveries_create(:iduser, :desip)", array(
+				/*$results2 = $sql->select("CALL sp_userspasswordsrecoveries_create(:iduser, :desip)", array(
+					":iduser"=>$data['iduser'],
+					":desip"=>$_SERVER['REMOTE_ADDR']
+				));*/
+			
+				// sem stored procedure
+				$sql->query("
+							INSERT INTO tb_userspasswordsrecoveries (iduser, desip)
+    					VALUES(:iduser, :desip);", array(
 					":iduser"=>$data['iduser'],
 					":desip"=>$_SERVER['REMOTE_ADDR']
 				));
-			
+
+				$results2 = $sql->select('SELECT * FROM tb_userspasswordsrecoveries
+    					WHERE idrecovery = LAST_INSERT_ID()');
+				////////////////////////////
 
 				if (count($results2) === 0) 
 				{
@@ -313,8 +414,6 @@
 				{
 
 					$dataRecovery = $results2[0];
-
-					// echo $dataRecovery['idrecovery'] .'<br>';
 
 					// Código anterior que foi depreciado a partir da versão 7.1 do php
 					/*$code = base64_encode(mcrypt_encrypt(MCRYPT_RIJNDAEL_128, User::SECRET, $dataRecovery['idrecovery'], MCRYPT_MODE_ECB));*/
@@ -332,8 +431,6 @@
 	    			$link = "http://www.hcodecommerce.com.br/forgot/reset?code=$code";
 
 	    		}	
-
-					
 
 					$mailer = new Mailer($data['desemail'], $data['desperson'], 'Redefinir senha da EL Store.', 'forgot', array(
 						'name'=>$data['desperson'],
@@ -360,7 +457,7 @@
 				SELECT *
 				FROM tb_userspasswordsrecoveries a
 				INNER JOIN tb_users b USING(iduser)
-				INNER JOIN tb_persons c USING(idperson)
+				INNER JOIN tb_persons c USING(iduser)
 				WHERE
 					a.idrecovery = :idrecovery
 					AND
@@ -422,14 +519,14 @@
 			return (count($results) > 0);
 		}
 
-		public static function checkEmailExist($login)
+		public static function checkEmailExist($desemail)
 		{
 
 			$sql = new SQL();
 
-			$results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(idperson) 
+			$results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b USING(iduser) 
 				WHERE b.desemail = :desemail', [
-				':desemail'=>$login
+				':desemail'=>$desemail
 			]);
 
 			return (count($results) > 0);
@@ -444,10 +541,9 @@
 	  		SELECT * 
 	  		FROM tb_orders a 
 	  		INNER JOIN tb_ordersstatus b USING(idstatus)
-	  		INNER JOIN tb_carts c USING(idcart)
 	  		INNER JOIN tb_users d ON d.iduser = a.iduser
-				INNER JOIN tb_addresses e USING(idaddress)
-				INNER join tb_persons f ON f.idperson = d.idperson
+				INNER JOIN tb_addresses e USING(idorder)
+				INNER join tb_persons f ON f.iduser = d.iduser
 				WHERE a.iduser = :iduser
 	  	', [
 	  		':iduser'=>$this->getiduser()
