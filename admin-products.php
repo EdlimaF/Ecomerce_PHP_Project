@@ -1,8 +1,8 @@
 <?php 
 
-	use \Aplication\PageAdmin;
-	use \Aplication\Model\User;
-	use \Aplication\Model\Product;
+	use \Application\PageAdmin;
+	use \Application\Model\User;
+	use \Application\Model\Product;
 
 	$app->get('/admin/products', function(){
 
@@ -57,7 +57,7 @@
 		
 		$product = new Product();
 
-		$product->setData($_POST);
+		$product->setValues($_POST);
 
 		$product->save();
 		
@@ -104,7 +104,7 @@
 
 		$product->get((int)$idproduct);
 
-		$product->setData($_POST);
+		$product->setValues($_POST);
 
 		$product->save();
 

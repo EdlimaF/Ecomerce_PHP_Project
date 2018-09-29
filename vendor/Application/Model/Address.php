@@ -1,0 +1,129 @@
+<?php
+
+	namespace Application\Model;
+
+	use \Application\Db\Sql;
+	use \Application\Model;
+
+	class Address extends  Model	{
+
+		const SESSION_ERROR = 'AddressError';
+
+		public static function getCEP($nrcep)
+		{
+
+			$nrcep = str_replace('-', '', $nrcep);
+
+			
+			$ch = curl_init();
+
+			curl_setopt($ch, CURLOPT_URL, "http://viacep.com.br/ws/$nrcep/json/");
+
+			curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+			$data = json_decode(curl_exec($ch), true);
+
+			curl_close($ch);
+
+			return $data;
+		}
+
+		public function loadfromCEP($nrcep)
+		{
+
+			$data = Address::getCEP($nrcep);
+
+			if (isset($data['logradouro']) && $data['logradouro']) {
+
+				$this->setdesaddress($data['logradouro']);
+				$this->setdescomplemento($data['complemento']);
+				$this->setdesdistrict($data['bairro']);
+				$this->setdescity($data['localidade']);
+				$this->setdesstate($data['uf']);
+				$this->setdescountry('Brasil');
+				$this->setdeszipcode($nrcep);
+				
+			}
+
+		}
+
+		public function save()
+		{
+
+			$sql = new Sql();
+
+			$results = $sql->select('CALL sp_addresses_save(:idaddress, :idorder, :desaddress, :desnumber, :descomplement, :descity, :desstate, :descountry, :deszipcode, :desdistrict)', [
+				':idaddress'=>$this->getidaddress(),
+				':idorder'=>$this->getidorder(),
+				':desaddress'=>utf8_decode($this->getdesaddress()),
+				':desnumber'=>$this->getdesnumber(),
+				':descomplement'=>utf8_decode($this->getdescomplement()),
+				':descity'=>utf8_decode($this->getdescity()),
+				':desstate'=>utf8_decode($this->getdesstate()),
+				':descountry'=>utf8_decode($this->getdescountry()),
+				':deszipcode'=>$this->getdeszipcode(),
+				':desdistrict'=>utf8_decode($this->getdesdistrict())
+			]);
+
+			if (count($results) > 0) {
+				$this->setValues($results[0]);
+			}
+
+		}
+
+		public function get($idaddress)
+		{
+
+			$sql = new Sql();
+
+			$results = $sql->select('SELECT * FROM tb_addresses WHERE idaddress = :idaddress', [
+				':idaddress'=>$idaddress
+			]);
+
+			if (count($results) > 0) {
+				$this->setValues($results[0]);
+			}
+		}
+
+		public function delete()
+		{
+
+			$sql = new Sql();
+
+			$sql->query('DELETE FROM tb_addresses WHERE idaddress = :idaddress', [
+				':idaddress'=>$this->getidaddress()
+			]);
+
+		}
+
+
+		public static function setMsgError($msg)
+		{
+
+			$_SESSION[Address::SESSION_ERROR] = $msg;
+
+		}
+
+
+		public static function getMsgError()
+		{
+
+			$msg = isset($_SESSION[Address::SESSION_ERROR]) ? $_SESSION[Address::SESSION_ERROR] : '';
+
+			Address::clearMsgError();
+			
+			return $msg;
+
+		}
+
+		public static function clearMsgError()
+		{
+
+			$_SESSION[Address::SESSION_ERROR] = NULL;
+
+		}
+
+	}
+
+?>

@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-3 col-sm-6">
                     <div class="footer-about-us">
-                        <h2>Lojas Lima & Cia</h2>
+                        <h2 class="footer-wid-title">Lojas Lima & Cia</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus vero quam laborum quas alias dolores blanditiis iusto consequatur, modi aliquid eveniet eligendi iure eaque ipsam iste, pariatur omnis sint! Suscipit, debitis, quisquam. Laborum commodi veritatis magni at?</p>
                         <div class="footer-social">
                             <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook"></i></a>
@@ -21,7 +21,7 @@
                         <ul>
                             <li><a href="/profile">Minha Conta</a></li>
                             <li><a href="/profile/orders">Meus Pedidos</a></li>
-                            <li><a href="#">Lista de Desejos</a></li>
+                            <!-- <li><a href="#">Lista de Desejos</a></li> -->
                         </ul>
                     </div>
                 </div>
@@ -30,19 +30,22 @@
                     <div class="footer-menu">
                         <h2 class="footer-wid-title">Categorias</h2>
                         <ul>
-                            <?php require $this->checkTemplate("categories-menu");?>
+                        <?php $counter1=-1; $newvar1=getCategories(); if( isset($newvar1) && ( is_array($newvar1) || $newvar1 instanceof Traversable ) && sizeof($newvar1) ) foreach( $newvar1 as $key1 => $value1 ){ $counter1++; ?>
+                        <li><a href="/categories/<?php echo htmlspecialchars( $value1["idcategory"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"><?php echo htmlspecialchars( $value1["descategory"], ENT_COMPAT, 'UTF-8', FALSE ); ?></a></li>
+                        <!--  <?php require $this->checkTemplate("categories-menu");?> Modificado--> 
+                        <?php } ?>
                         </ul>
                     </div>
                 </div>
 
                 <div class="col-md-3 col-sm-6">
                     <div class="footer-newsletter">
-                        <h2 class="footer-wid-title">Newsletter</h2>
+                        <h2 class="footer-wid-title">Notícias</h2>
                         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis sunt id doloribus!</p>
                         <div class="newsletter-form">
-                            <form action="#">
-                                <input type="email" placeholder="Type your email">
-                                <input type="submit" value="Subscribe">
+                            <form action="/login">
+                                <input type="email" name="email" placeholder="Digite seu email">
+                                <input type="submit" value="Inscreva-se">
                             </form>
                         </div>
                     </div>
@@ -56,7 +59,7 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="copyright">
-                        <p>&copy; 2018 Loja Lima & Cia. <a href="http://www.llc.com.br" target="_blank">llc.com.br</a></p>
+                        <p>&copy; 2018 Lojas Lima & Cia. <a href="http://www.llc.com.br" target="_blank"> llc.com.br</a></p>
                     </div>
                 </div>
 

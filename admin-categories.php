@@ -1,9 +1,9 @@
 <?php 
 
-	use \Aplication\PageAdmin;
-	use \Aplication\Model\User;
-	use \Aplication\Model\Category;
-	use \Aplication\Model\Product;
+	use \Application\PageAdmin;
+	use \Application\Model\User;
+	use \Application\Model\Category;
+	use \Application\Model\Product;
 
 	
 	$app->get('/admin/categories', function(){
@@ -60,7 +60,7 @@
 
 		$category = new Category();
 
-		$category->setData($_POST);
+		$category->setValues($_POST);
 
 		$category->save();
 
@@ -107,7 +107,7 @@
 
 		$category->get((int)$idcategory);
 
-		$category->setData($_POST);
+		$category->setValues($_POST);
 
 		$category->save();
 		

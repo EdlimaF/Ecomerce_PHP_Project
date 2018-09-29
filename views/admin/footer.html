@@ -2,10 +2,10 @@
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      Anything you want
+      Qualquer coisa que você quiser
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2016 <a href="#">Company</a>.</strong> All rights reserved.
+    <strong>Copyright &copy; 2018 <a href="#">Company</a> Lojas Lima & Cia.</strong> All rights reserved.
   </footer>
 
   <!-- Control Sidebar -->
@@ -19,28 +19,28 @@
     <div class="tab-content">
       <!-- Home tab content -->
       <div class="tab-pane active" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
+        <h3 class="control-sidebar-heading">Atividade recente</h3>
         <ul class="control-sidebar-menu">
           <li>
             <a href="/res/admin/javascript:;">
               <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
               <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
+                <h4 class="control-sidebar-subheading">Aniversário de Langdon</h4>
 
-                <p>Will be 23 on April 24th</p>
+                <p>Serão 23 no dia 24 de abril</p>
               </div>
             </a>
           </li>
         </ul>
         <!-- /.control-sidebar-menu -->
 
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
+        <h3 class="control-sidebar-heading">Tarefas Progresso</h3>
         <ul class="control-sidebar-menu">
           <li>
             <a href="/res/admin/javascript:;">
               <h4 class="control-sidebar-subheading">
-                Custom Template Design
+                Design de modelo personalizado
                 <span class="pull-right-container">
                   <span class="label label-danger pull-right">70%</span>
                 </span>
@@ -57,21 +57,21 @@
       </div>
       <!-- /.tab-pane -->
       <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
+      <div class="tab-pane" id="control-sidebar-stats-tab">Conteúdo da guia Estatísticas</div>
       <!-- /.tab-pane -->
       <!-- Settings tab content -->
       <div class="tab-pane" id="control-sidebar-settings-tab">
         <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
+          <h3 class="control-sidebar-heading">Configurações Gerais</h3>
 
           <div class="form-group">
             <label class="control-sidebar-subheading">
-              Report panel usage
+              Uso do painel de relatórios
               <input type="checkbox" class="pull-right" checked>
             </label>
 
             <p>
-              Some information about this general settings option
+              Algumas informações sobre essa opção de configurações gerais
             </p>
           </div>
           <!-- /.form-group -->

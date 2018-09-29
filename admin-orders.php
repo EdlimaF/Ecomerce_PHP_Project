@@ -1,9 +1,9 @@
 <?php 
 
-	use \Aplication\PageAdmin;
-	use \Aplication\Model\User;
-	use \Aplication\Model\Order;
-	use \Aplication\Model\OrderStatus;
+	use \Application\PageAdmin;
+	use \Application\Model\User;
+	use \Application\Model\Order;
+	use \Application\Model\OrderStatus;
 
 	$app->get('/admin/orders/:idorder/status', function($idorder){
 

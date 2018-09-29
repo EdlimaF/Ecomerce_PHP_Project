@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "de022a098465cf7393de9e401c612d4f",
+    "content-hash": "1f978e84fc8baec5bed07ebdfed2516f",
     "packages": [
         {
             "name": "phpmailer/phpmailer",
@@ -68,17 +68,20 @@
         },
         {
             "name": "rain/raintpl",
-            "version": "3.0.0",
+            "version": "3.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rainphp/raintpl3.git",
-                "reference": "5bfdf4602b8adb0e80b222fa29ac559aa9c06abf"
+                "reference": "5fc655b59cb3d541755116a09fc4c0206b301923"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rainphp/raintpl3/zipball/5bfdf4602b8adb0e80b222fa29ac559aa9c06abf",
-                "reference": "5bfdf4602b8adb0e80b222fa29ac559aa9c06abf",
+                "url": "https://api.github.com/repos/rainphp/raintpl3/zipball/5fc655b59cb3d541755116a09fc4c0206b301923",
+                "reference": "5fc655b59cb3d541755116a09fc4c0206b301923",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
             },
             "type": "library",
             "autoload": {
@@ -87,15 +90,22 @@
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
             "authors": [
                 {
                     "name": "Federico Ulfo",
                     "email": "rainelemental@gmail.com",
                     "homepage": "http://github.com/rainphp"
+                },
+                {
+                    "name": "Rain Community"
                 }
             ],
             "description": "easy and fast template engine",
-            "time": "2012-12-24T05:24:32+00:00"
+            "homepage": "http://raintpl.com",
+            "time": "2013-11-10T18:36:47+00:00"
         },
         {
             "name": "slim/slim",

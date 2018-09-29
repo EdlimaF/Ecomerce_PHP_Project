@@ -33,7 +33,7 @@
 											<label class="" for="billing_cep_1">Cep <abbr title="required" class="required">*</abbr>
 											</label>
 											<input type="text" value="<?php echo htmlspecialchars( $cart["deszipcode"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" placeholder="00000-000" id="billing_cep_1" name="deszipcode" class="input-text ">
-											<input type="submit" value="Atualizar CEP" id="place_order" class="button alt" formaction="/checkout" formmethod="get">
+											<input type="submit" value="Atualizar CEP" id="place_order" class="button alt" formaction="/updatecep" formmethod="get">
 										</p>
 										<div class="row">
 											<div class="col-sm-9">

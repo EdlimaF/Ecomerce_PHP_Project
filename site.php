@@ -1,17 +1,14 @@
 <?php
 
 	use \Slim\Slim;
-	use \Aplication\Page;
-	use \Aplication\Model\Category;
-	use \Aplication\Model\Product;
-	use \Aplication\Model\User;
-	use \Aplication\Model\Cart;
-	use \Aplication\Model\Address;
-	use \Aplication\Model\Order;
-	use \Aplication\Model\OrderStatus;
-
-	
-
+	use \Application\Page;
+	use \Application\Model\Category;
+	use \Application\Model\Product;
+	use \Application\Model\User;
+	use \Application\Model\Cart;
+	use \Application\Model\Address;
+	use \Application\Model\Order;
+	use \Application\Model\OrderStatus;
 	
 	$app->get('/categories/:idcategory', function($idcategory){
 		// Variavel de paginação
@@ -53,6 +50,49 @@
 			'product'=>$product->getvalues(),
 			'categories'=>$product->getCategories()
 		]);
+	});
+
+	$app->get('/products', function(){
+
+		$_SESSION['menupos'] = 1;
+
+		if (isset($_GET['page']) && (int)$_GET['page'] > 0) {
+			$pge = $_GET['page'];
+		} else {
+			$pge = 1;
+		}
+
+		$pagination =  Product::getProductsPage($pge, 10);
+
+		$products = Product::checkList($pagination['data']);
+
+		$pages = (isset($page)) ? $page : [];
+
+
+		if (count($products) > 0) {
+
+			for ($i = 1; $i <= $pagination['pages'] ; $i++) {
+				array_push($pages, [
+					'link'=>'/products' .'?page=' .$i,
+					'page'=>$i
+				]);
+			}
+
+		} else if (--$pge > 0) {
+
+			header('Location: /products?page='. --$pge);
+				exit;
+			
+		}
+
+		$page = new Page();
+
+		$page->setTpl('products-list', [
+			'products'=>$products,
+			'pages'=>$pages,
+			'page'=> $pge
+		]);
+			
 	});
 
 	$app->get('/cart/:idproduct/add', function($idproduct){
@@ -114,6 +154,8 @@
 
 	$app->get('/cart', function(){
 
+		$_SESSION['menupos'] = 2;
+
 		$cart = Cart::getFromSession();
 
 		$page = new Page();
@@ -126,7 +168,7 @@
 
 	});
 
-	$app->get('/checkout', function(){
+	$app->get('/updatecep', function(){
 
 		User::verifyLogin(false, true);
 
@@ -136,20 +178,76 @@
 
 		$cartzipcode = $cart->getdeszipcode();
 
+		if (isset($_GET['deszipcode']) 
+			&& $_GET['deszipcode'] != $cartzipcode 
+			&& $_GET['deszipcode'] != '')  {
 
-		if (isset($_GET['deszipcode'])) {
+			$add = Address::getCEP($_GET['deszipcode']);
 
-			if ($cartzipcode != '') $_GET['deszipcode'] = $cartzipcode;
+			if (!isset($add) || isset($add['erro']))  {
+
+				Address::setMsgError('O CEP ('.$_GET['deszipcode'].') não é valido.');
 				
-			$address->loadFromCEP($_GET['deszipcode']);
+			} else {
 
-			$cart->setdeszipcode($_GET['deszipcode']);
+				$cart->setdeszipcode($_GET['deszipcode']);
+				$cart->setToSession();
 
-			$cart->save();
+			}
 
-			$cart->getCalculateTotal();
+			header('Location: /checkout');
+			exit;
 			
+		} else if (!isset($_GET['deszipcode']) || $_GET['deszipcode'] == '') {
+
+			Address::setMsgError('O CEP não foi informado');
+			
+			header('Location: /checkout');
+			exit;
+			
+		} 
+
+	});
+
+	$app->get('/checkout', function(){
+
+		User::verifyLogin(false, true);
+
+		$cart = Cart::getFromSession();
+
+		if (count($cart->getProducts()) > 0) {
+
+			if ($cart->getvlfreight() <= 0) {
+
+				Cart::setMsgError('Calcule o frete antes de continuar.');
+
+				header('Location: /cart');
+				exit;
+				
+			}
+			
+		} else {
+
+			Cart::setMsgError('Não existe nenhum produto no carrinho.');
+
+			header('Location: /cart');
+			exit;
+
 		}
+
+		
+
+		$address = new Address();
+
+		$_GET['deszipcode'] = $cart->getdeszipcode();
+
+		$address->loadFromCEP($_GET['deszipcode']);
+
+		$cart->setdeszipcode($_GET['deszipcode']);
+
+		$cart->save();
+
+		$cart->getCalculateTotal();
 
 		if (!$address->getdesaddress()) $address->setdesaddress('');
 		if (!$address->getdesnumber()) $address->setdesnumber('');
@@ -178,43 +276,44 @@
 		User::verifyLogin(false);
 
 		// validação dos campos.
-		if (!isset($_POST['deszipcode']) || $_POST['deszipcode'] == '') {
+		if (!isset($_POST['deszipcode']) || $_POST['deszipcode'] === '') {
 
 			Address::setMsgError('Informe o CEP');
 			header('Location: /checkout');
+
 			exit;
 
-		} else if(!isset($_POST['desaddress']) || $_POST['desaddress'] == '') { 
+		} else if(!isset($_POST['desaddress']) || $_POST['desaddress'] === '') { 
 
 			Address::setMsgError('Informe o endereço');
 			header('Location: /checkout');
 			exit;
 
-		} else if(!isset($_POST['desnumber']) || $_POST['desnumber'] == '') { 
+		} else if(!isset($_POST['desnumber']) || $_POST['desnumber'] === '') { 
 
 			Address::setMsgError('Informe o número');
 			header('Location: /checkout');
 			exit;
 
-		} else if(!isset($_POST['desdistrict']) || $_POST['desdistrict'] == '') { 
+		} else if(!isset($_POST['desdistrict']) || $_POST['desdistrict'] === '') { 
 
 			Address::setMsgError('Informe o bairro');
 			header('Location: /checkout');
 			exit;
 
-		} else if(!isset($_POST['descity']) || $_POST['descity'] == '') { 
+		} else if(!isset($_POST['descity']) || $_POST['descity'] === '') { 
 
 			Address::setMsgError('Informe a cidade');
 			header('Location: /checkout');
 			exit;
 
-		} else if(!isset($_POST['desstate']) || $_POST['desstate'] == '') { 
+		} else if(!isset($_POST['desstate']) || $_POST['desstate'] === '') { 
 
 			Address::setMsgError('Informe o estado');
 			header('Location: /checkout');
 			exit;
 
-		} else if(!isset($_POST['descountry']) || $_POST['descountry'] == '') { 
+		} else if(!isset($_POST['descountry']) || $_POST['descountry'] === '') { 
 
 			Address::setMsgError('Informe o país');
 			header('Location: /checkout');
@@ -226,17 +325,26 @@
 
 			$cart = Cart::getFromSession();
 
+			if ($cart->getdeszipcode() != $_POST['deszipcode']) {
+
+				Address::setMsgError('O CEP "'.$_POST['deszipcode'].'" informado está diferente do calculado. clicque "Atualizar CEP" para recalcular o frete.');
+				header('Location: /checkout');
+				exit;
+				
+			}
+
 			$cart->getCalculateTotal();
 
 			$order = new Order();
 
-			$order->setData([
+			$order->setValues([
 				'iduser'=>$user->getiduser(),
 				'idstatus'=>OrderStatus::EM_ABERTO,
 				'vlfreight'=>$cart->getvlfreight(),
 				'vlsubtotal'=>$cart->getvlsubtotal(),
 				'vltotal'=>$cart->getvltotal()
 			]);
+
 
 			if ($order->save()){ // Se o pedido for salvo
 
@@ -248,9 +356,10 @@
 
 				$_POST['idorder'] = $order->getidorder();
 
+				
 				$address = new Address(); // salva o endereço associado ao pedido
 
-				$address->setData($_POST);
+				$address->setValues($_POST);
 
 				$address->save();
 
@@ -262,13 +371,16 @@
 			}
 
 
-			header('Location: /order/'.$order->getidorder());
+			header('Location: /order/'.$_POST['idorder']);
 			exit;
 		}
 
 	});
 
 	$app->get('/login', function(){
+
+		// Solicitação de instrição vindo do footer.
+		$_GET['email'] = (isset($_GET['email']) && $_GET['email'] != '') ? $_GET['email'] : '';
 
 		$page = new Page;
 
@@ -283,7 +395,7 @@
 			'errorRegister'=>$errorReg,
 			'registerValues'=>isset($_SESSION['registerValues']) ? $_SESSION['registerValues'] : [
 				'name'=>'',
-				'email'=>'',
+				'email'=>$_GET['email'],
 				'phone'=>''
 			]
 		]);
@@ -375,7 +487,7 @@
 
 			$user = new User();
 
-			$user->setData([
+			$user->setValues([
 				'inadmin'=>0,
 				'deslogin'=>$_POST['email'],
 				'desperson'=>$_POST['name'],
@@ -515,7 +627,7 @@
 			$_POST['despassword'] = $user->getdespassword();
 			$_POST['deslogin'] = $_POST['desemail'];
 
-			$user->setData($_POST);
+			$user->setValues($_POST);
 
 			$user->update();
 
@@ -569,8 +681,8 @@
 
 		// DADOS DO SEU CLIENTE
 		$dadosboleto["sacado"] = $order->getdesperson();
-		$dadosboleto["endereco1"] =  utf8_encode($order->getdesaddress().' '.'N&ordm;'.$order->getdesnumber().' '.$order->getdesdistrict().' '.$order->getdescomplement());
-		$dadosboleto["endereco2"] =  utf8_encode($order->getdescity().'-'.$order->getdesstate().'  CEP:'.$order->getdeszipcode().' '.$order->getdecountry());
+		$dadosboleto["endereco1"] =  $order->getdesaddress().' '.'N&ordm;'.$order->getdesnumber().' '.$order->getdesdistrict().' '.$order->getdescomplement();
+		$dadosboleto["endereco2"] =  $order->getdescity().'-'.$order->getdesstate().'  CEP:'.$order->getdeszipcode().' '.$order->getdecountry();
 
 		// INFORMACOES PARA O CLIENTE
 		$dadosboleto["demonstrativo1"] = "Pagamento de Compra na Lojas Lima & Cia. E-commerce";
@@ -724,12 +836,15 @@
 
 	$app->get('/', function() {
 
+		$_SESSION['menupos'] = 0;
+
+
 		$productsSlide = Product::listAll('dtregister DESC', 'LIMIT 8');
 		$products = Product::listAll();
 	
-
 		$page = new Page();
 
+	
 		$page->setTpl('index', [
 			'productsSlide'=>Product::checkList($productsSlide),
 			'products'=>Product::checkList($products)

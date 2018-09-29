@@ -41,7 +41,6 @@
                     <div class="user-menu">
                         <ul>
                             <li><a href="/profile"><i class="fa fa-user"></i> Minha Conta</a></li>
-                            <li><a href="#"><i class="fa fa-heart"></i> Lista de Desejos</a></li>
                             <li><a href="/cart"><i class="fa fa-shopping-cart"></i> Meu Carrinho</a></li>
                             <?php if( checkLogin(false) ){ ?>
                             <li><a href="/profile"><i class="fa fa-user"></i><?php echo getUserName(); ?></a></li>
@@ -55,15 +54,7 @@
 
                 <div class="col-md-4">
                     <div class="header-right">
-                        <ul class="list-unstyled list-inline">
-                            <li class="dropdown dropdown-small">
-                                <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">moeda :</span><span class="value">BRL </span><b class="caret"></b></a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">BRL</a></li>
-                                    <li><a href="#">USD</a></li>
-                                </ul>
-                            </li>
-
+                        <!-- <ul class="list-unstyled list-inline">
                             <li class="dropdown dropdown-small">
                                 <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#"><span class="key">linguagem :</span><span class="value">Português </span><b class="caret"></b></a>
                                 <ul class="dropdown-menu">
@@ -72,7 +63,7 @@
                                     <li><a href="#">Espanhol</a></li>
                                 </ul>
                             </li>
-                        </ul>
+                        </ul> -->
                     </div>
                 </div>
             </div>
@@ -112,9 +103,11 @@
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
-                        <li class="active"><a href="/">Home</a></li>
-                        <li><a href="#">Produtos</a></li>
-                        <li><a href="/cart">Carrinho</a></li>
+                        <?php $counter1=-1; $newvar1=getMenuPos(); if( isset($newvar1) && ( is_array($newvar1) || $newvar1 instanceof Traversable ) && sizeof($newvar1) ) foreach( $newvar1 as $key1 => $value1 ){ $counter1++; ?>
+                        <li <?php echo htmlspecialchars( $value1["home"], ENT_COMPAT, 'UTF-8', FALSE ); ?>><a href="/">Home</a></li>
+                        <li <?php echo htmlspecialchars( $value1["products"], ENT_COMPAT, 'UTF-8', FALSE ); ?>><a href="/products">Produtos</a></li>
+                        <li <?php echo htmlspecialchars( $value1["cart"], ENT_COMPAT, 'UTF-8', FALSE ); ?>><a href="/cart">Carrinho</a></li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>

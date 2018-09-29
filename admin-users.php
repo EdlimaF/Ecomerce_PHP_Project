@@ -1,7 +1,7 @@
 <?php 
 
-	use \Aplication\PageAdmin;
-	use \Aplication\Model\User;
+	use \Application\PageAdmin;
+	use \Application\Model\User;
 	
 	
 	// Rotas (CRUD)
@@ -132,7 +132,7 @@
 
 			$_POST['inadmin'] = (isset($_POST['inadmin']))?1:0;
 
-			$user->setData($_POST);
+			$user->setValues($_POST);
 
 			$user->save();
 
@@ -249,7 +249,7 @@
 
 			$_POST['inadmin'] = (isset($_POST['inadmin']))?1:0;
 		
-			$user->setData($_POST);
+			$user->setValues($_POST);
 
 			$user->update();
 

@@ -40,7 +40,7 @@
             Para
             <address>
                 <strong>{$order.desperson}</strong><br>
-                {function="utf8_encode($order.desaddress)"} <br> N&ordm;{function="utf8_encode($order.desnumber)"}{function="utf8_encode($order.descomplement)"} {function="utf8_encode($order.descity)"}-{function="utf8_encode($order.desstate)"}<br>
+                {$order.desaddress} <br> N&ordm;{$order.desnumber}{$order.descomplement} {$order.descity}-{$order.desstate}<br>
                 {if="$order.nrphone && $order.nrphone!='0'"}Telefone: {$order.nrphone}<br>{/if}
                 E-mail: {$order.desemail}
             </address>
@@ -74,7 +74,7 @@
                 {loop="$products"}
                 <tr>
                     <td>{$value.idproduct}</td>
-                    <td>{function="utf8_encode($value.desproduct)"}</td>
+                    <td>{$value.desproduct}</td>
                     <td>R${function="formatPrice($value.vlprice)"}</td>
                     <td>{$value.nrqtd}</td>
                     <td>R${function="formatPrice($value.vltotal)"}</td>
