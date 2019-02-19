@@ -1,10 +1,19 @@
 <?php
 	
-	use \Slim\Slim;
 	use \Application\PageAdmin;
 	use \Application\Model\User;
 
 	require_once('index.php');
+	
+	$app->get('/admin', function() {
+
+		User::verifyLogin();
+
+		$page = new PageAdmin();
+
+		$page->setTpl('index');
+
+	});
 
 	$app->get('/admin/forgot/sent', function() {
 
@@ -107,17 +116,13 @@
 
 			header('Location: /admin/login');
 			exit;
-			
 		} else {
 
 			User::setError($error);
 
 			header('Location: /admin');
-		exit;
-			
+			exit;
 		}
-
-		
 	});
 
 	$app->get('/admin/logout', function() {
@@ -158,7 +163,5 @@
 		$page->setTpl('index');
 
 	});
-
-	
 
 ?>

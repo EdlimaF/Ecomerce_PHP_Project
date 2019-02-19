@@ -13,7 +13,8 @@
     },
     "autoload": {
         "psr-4": {
-            "Application\\": "vendor/Application/"
+            "Application\\": "vendor/Application/",
+            "Slim\\": "vendor/slim/slim/Slim/"
         }
     }
 }

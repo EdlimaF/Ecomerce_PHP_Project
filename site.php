@@ -9,6 +9,8 @@
 	use \Application\Model\Address;
 	use \Application\Model\Order;
 	use \Application\Model\OrderStatus;
+
+	
 	
 	$app->get('/categories/:idcategory', function($idcategory){
 		// Variavel de paginação

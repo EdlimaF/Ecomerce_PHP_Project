@@ -10,16 +10,14 @@
 
 		
 
-		public static function listAll()
-		{
+		public static function listAll() {
 
 			$sql = new Sql();
 
 			return $sql->select('SELECT * FROM tb_categories ORDER BY descategory');
 		}
 
-		public function save()
-		{
+		public function save() {
 
 			$sql = new Sql();
 
@@ -36,8 +34,7 @@
 			//Category::updateFile(); removido
 		}
 
-		public function get($idcategory)
-		{
+		public function get($idcategory) {
 
 			$sql = new Sql();
 
@@ -52,8 +49,7 @@
 		}
 
 		// Paginação dos itens no site
-		public static function getCategoriesPage($page = 1, $itemsPerPage = 10)
-		{
+		public static function getCategoriesPage($page = 1, $itemsPerPage = 10) {
 
 			$start =($page - 1) * $itemsPerPage;
 
@@ -77,8 +73,7 @@
 
 	
 		// Paginação dos itens com busca
-		public static function getPageSearch($search, $page = 1, $itemsPerPage = 10)
-		{
+		public static function getPageSearch($search, $page = 1, $itemsPerPage = 10) {
 
 			$start =($page - 1) * $itemsPerPage;
 

@@ -84,7 +84,14 @@
                                     
                                     <div class="coupon">
                                         <label for="cep">CEP:</label>
-                                        <input type="text" placeholder="00000-000" value="<?php echo htmlspecialchars( $cart["deszipcode"], ENT_COMPAT, 'UTF-8', FALSE ); ?>" id="cep" class="input-text" name="deszipcode">
+                                        <input type="text" placeholder="00000-000"
+                                        <?php if( isset($cart["deszipcode"]) ){ ?>
+
+                                          value="<?php echo htmlspecialchars( $cart["deszipcode"], ENT_COMPAT, 'UTF-8', FALSE ); ?>"
+                                        {/else}
+                                          value="00000-000"
+                                        <?php } ?> 
+                                        id="cep" class="input-text" name="deszipcode">
                                         <input type="submit" formmethod="post" formaction="/cart/freight" value="CÁLCULAR" class="button">
                                     </div>
 
@@ -103,7 +110,21 @@
 
                                             <tr class="shipping">
                                                 <th>Frete</th>
-                                                <td>R$<?php echo formatPrice($cart["vlfreight"]); ?> <?php if( $cart["nrdays"] > 0 ){ ?><small>prazo de <?php echo htmlspecialchars( $cart["nrdays"], ENT_COMPAT, 'UTF-8', FALSE ); ?> dia(s)</small><?php } ?></td>
+                                                <td>
+                                                  <?php if( isset($cart["vlfreight"]) ){ ?>
+
+                                                    R$<?php echo formatPrice($cart["vlfreight"]); ?>
+
+                                                  <?php }else{ ?>
+
+                                                     R$0,00
+                                                  <?php } ?> 
+                                                  <?php if( isset($cart["nrdays"]) && $cart["nrdays"] > 0 ){ ?>
+
+                                                    <small>prazo de <?php echo htmlspecialchars( $cart["nrdays"], ENT_COMPAT, 'UTF-8', FALSE ); ?> dia(s)</small>
+                                                  <?php } ?>
+
+                                                </td>
                                             </tr>
 
                                             <tr class="order-total">

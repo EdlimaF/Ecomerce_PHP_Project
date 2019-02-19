@@ -44,13 +44,11 @@
 
 				//Não ta logado
 				return false;
-
-			}	else {
+			} else {
 
 				if ($inadmin === true && (bool)$_SESSION[User::SESSION]['inadmin'] === true) {
 					
 					return true;
-
 				} else if ($inadmin === false){
 
 					return true;
@@ -58,9 +56,7 @@
 
 					return false;					
 				}
-
 			}		
-
 		}
 
 		public static function login($login, $password)
@@ -68,19 +64,20 @@
 
 			$sql = new Sql();
 
-			$results = $sql->select('SELECT * FROM tb_users a INNER JOIN tb_persons b ON a.iduser = b.iduser WHERE a.deslogin = :LOGIN', [
+			$results = $sql->select('SELECT * FROM tb_users a 
+									INNER JOIN tb_persons b 
+									ON a.iduser = b.iduser 
+									WHERE a.deslogin = :LOGIN', [
 				':LOGIN'=>$login
 			]);
 
-			if (count($results) === 0)
-			{
+			if (count($results) === 0) {
 				throw new \Exception("Usuário inexistente ou senha invalida");
 			}
 
 			$data = $results[0];
 			
-			if (password_verify($password, $data['despassword']) === true)
-			{
+			if (password_verify($password, $data['despassword']) === true) {
 
 				$user = new User();
 
@@ -89,13 +86,9 @@
 				$_SESSION[User::SESSION] = $user->getValues();
 
 				return $user;
-
-			} 
-			else 
-			{
+			} else {
 
 				throw new \Exception("Usuário inexistente ou senha invalida");
-
 			}
 		}// Fim function login
 
@@ -209,12 +202,12 @@
 			$sql = new Sql();
 
 			$results = $sql->select("
-					SELECT SQL_CALC_FOUND_ROWS *
-					FROM tb_users a
-					INNER JOIN tb_persons b ON a.iduser = b.iduser
-					ORDER BY b.desperson
-					LIMIT $start, $itemsPerPage;
-				");
+				SELECT SQL_CALC_FOUND_ROWS *
+				FROM tb_users a
+				INNER JOIN tb_persons b ON a.iduser = b.iduser
+				ORDER BY b.desperson
+				LIMIT $start, $itemsPerPage;
+			");
 
 			$resultTotal = $sql->select('SELECT FOUND_ROWS() AS nrtotal;');
 
@@ -541,9 +534,9 @@
 	  		FROM tb_orders a 
 	  		INNER JOIN tb_ordersstatus b USING(idstatus)
 	  		INNER JOIN tb_users d ON d.iduser = a.iduser
-				INNER JOIN tb_addresses e USING(idorder)
-				INNER join tb_persons f ON f.iduser = d.iduser
-				WHERE a.iduser = :iduser
+			INNER JOIN tb_addresses e USING(idorder)
+			INNER join tb_persons f ON f.iduser = d.iduser
+			WHERE a.iduser = :iduser
 	  	', [
 	  		':iduser'=>$this->getiduser()
 	  	]);	

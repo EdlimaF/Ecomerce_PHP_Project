@@ -80,7 +80,13 @@
                                     
                                     <div class="coupon">
                                         <label for="cep">CEP:</label>
-                                        <input type="text" placeholder="00000-000" value="{$cart.deszipcode}" id="cep" class="input-text" name="deszipcode">
+                                        <input type="text" placeholder="00000-000"
+                                        {if="isset($cart.deszipcode)"}
+                                          value="{$cart.deszipcode}"
+                                        {/else}
+                                          value="00000-000"
+                                        {/if} 
+                                        id="cep" class="input-text" name="deszipcode">
                                         <input type="submit" formmethod="post" formaction="/cart/freight" value="CÁLCULAR" class="button">
                                     </div>
 
@@ -99,7 +105,16 @@
 
                                             <tr class="shipping">
                                                 <th>Frete</th>
-                                                <td>R${function="formatPrice($cart.vlfreight)"} {if="$cart.nrdays > 0"}<small>prazo de {$cart.nrdays} dia(s)</small>{/if}</td>
+                                                <td>
+                                                  {if="isset($cart.vlfreight)"}
+                                                    R${function="formatPrice($cart.vlfreight)"}
+                                                  {else}
+                                                     R$0,00
+                                                  {/if} 
+                                                  {if="isset($cart.nrdays) && $cart.nrdays > 0"}
+                                                    <small>prazo de {$cart.nrdays} dia(s)</small>
+                                                  {/if}
+                                                </td>
                                             </tr>
 
                                             <tr class="order-total">

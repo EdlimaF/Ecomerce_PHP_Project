@@ -9,8 +9,7 @@
 
 		const SESSION_ERROR = 'AddressError';
 
-		public static function getCEP($nrcep)
-		{
+		public static function getCEP($nrcep) {
 
 			$nrcep = str_replace('-', '', $nrcep);
 
@@ -29,8 +28,7 @@
 			return $data;
 		}
 
-		public function loadfromCEP($nrcep)
-		{
+		public function loadfromCEP($nrcep) {
 
 			$data = Address::getCEP($nrcep);
 
@@ -43,13 +41,10 @@
 				$this->setdesstate($data['uf']);
 				$this->setdescountry('Brasil');
 				$this->setdeszipcode($nrcep);
-				
 			}
-
 		}
 
-		public function save()
-		{
+		public function save() {
 
 			$sql = new Sql();
 
@@ -69,11 +64,9 @@
 			if (count($results) > 0) {
 				$this->setValues($results[0]);
 			}
-
 		}
 
-		public function get($idaddress)
-		{
+		public function get($idaddress) {
 
 			$sql = new Sql();
 
@@ -86,44 +79,34 @@
 			}
 		}
 
-		public function delete()
-		{
+		public function delete() {
 
 			$sql = new Sql();
 
 			$sql->query('DELETE FROM tb_addresses WHERE idaddress = :idaddress', [
 				':idaddress'=>$this->getidaddress()
 			]);
-
 		}
 
 
-		public static function setMsgError($msg)
-		{
+		public static function setMsgError($msg) {
 
 			$_SESSION[Address::SESSION_ERROR] = $msg;
-
 		}
 
 
-		public static function getMsgError()
-		{
+		public static function getMsgError() {
 
 			$msg = isset($_SESSION[Address::SESSION_ERROR]) ? $_SESSION[Address::SESSION_ERROR] : '';
 
 			Address::clearMsgError();
 			
 			return $msg;
-
 		}
 
-		public static function clearMsgError()
-		{
+		public static function clearMsgError() {
 
 			$_SESSION[Address::SESSION_ERROR] = NULL;
-
 		}
-
 	}
-
 ?>
